@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Events | Buffalo Mall Naivasha</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Literata:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v4 Browser Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Custom Style tweaks -->
+    <style>
+      :root{--buffalo-brown:#A64C2C;--buffalo-black:#111111;--buffalo-bg:#FDF8F5;}
+      .bg-buffalo-brown{background:var(--buffalo-brown)!important}
+      .text-buffalo-brown{color:var(--buffalo-brown)!important}
+      .border-buffalo-brown{border-color:var(--buffalo-brown)!important}
+
+      body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+      .savanna-shadow {
+        box-shadow: 0px 10px 30px rgba(166, 76, 44, 0.08);
+      }
+
+      /* Hide default scrollbars on mobile filter bar */
+      .scrollbar-none::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* --- Logo lockup: image scales with the wordmark line-height --- */
+      .brand-lockup { display:inline-flex; align-items:center; gap:0.75rem; line-height:1; }
+      .brand-lockup .brand-mark {
+          height: 2.1em;
+          width: 2.1em;
+          object-fit: contain;
+          display: block;
+      }
+      .brand-lockup .brand-text { font-size: 1.25rem; line-height: 1.05; letter-spacing: -0.01em; }
+      @media (min-width: 768px){ .brand-lockup .brand-text { font-size: 1.4rem; } }
+
+      /* --- Mobile menu smooth expand --- */
+      #mobile-menu {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 350ms cubic-bezier(.4,0,.2,1),
+                      opacity 250ms ease;
+          opacity: 0;
+          overflow: hidden;
+      }
+      #mobile-menu > .mm-inner { min-height: 0; overflow: hidden; }
+      #mobile-menu.is-open { grid-template-rows: 1fr; opacity: 1; }
+
+      /* --- Floating tools dock --- */
+      #tools-dock {
+          position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 999;
+          display: flex; flex-direction: column; align-items: flex-end; gap: .6rem;
+      }
+      #tools-panel {
+          display: flex; flex-direction: column; gap: .55rem;
+          transform-origin: bottom right;
+          transform: scale(.6) translateY(10px);
+          opacity: 0; pointer-events: none;
+          transition: transform 260ms cubic-bezier(.34,1.56,.64,1), opacity 200ms ease;
+      }
+      #tools-dock.is-open #tools-panel {
+          transform: scale(1) translateY(0);
+          opacity: 1; pointer-events: auto;
+      }
+      .tool-btn {
+          width: 44px; height: 44px; border-radius: 9999px;
+          display: inline-flex; align-items: center; justify-content: center;
+          background: #fff; color: var(--buffalo-brown);
+          box-shadow: 0 6px 18px -6px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.08);
+          border: 1px solid rgba(0,0,0,.05);
+          transition: transform .18s ease, background .18s ease, color .18s ease;
+      }
+      .tool-btn:hover { transform: translateY(-2px); background: var(--buffalo-brown); color:#fff; }
+      .tool-btn svg { width: 20px; height: 20px; }
+      #tools-toggle {
+          width: 54px; height: 54px; border-radius: 9999px;
+          background: var(--buffalo-brown); color:#fff;
+          display:inline-flex; align-items:center; justify-content:center;
+          box-shadow: 0 10px 24px -8px rgba(166, 76, 44,.6), 0 4px 10px rgba(0,0,0,.12);
+          transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+      }
+      #tools-dock.is-open #tools-toggle { transform: rotate(45deg); }
+      #tools-toggle svg { width: 22px; height: 22px; }
+
+      /* Translate popover */
+      #translate-pop {
+          position: absolute; right: 60px; bottom: 0;
+          background:#fff; border-radius: 14px; padding: .5rem .6rem;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,.25);
+          display:none;
+      }
+      #translate-pop.is-open { display:block; }
+      .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; color: transparent !important; }
+      .goog-te-gadget .goog-te-combo {
+          margin: 0 !important; padding: .4rem .6rem !important;
+          border: 1px solid #e5e5e5 !important; border-radius: 8px !important;
+          font-size: 13px !important; font-family: inherit !important;
+          color: #111 !important; background:#fff !important; outline:none;
+      }
+      .goog-te-gadget > span, .goog-logo-link, .goog-te-gadget img { display:none !important; }
+      body { top: 0 !important; }
+      .skiptranslate.goog-te-banner-frame { display: none !important; }
+
+      .footer-card { border-radius: 1.5rem; }
+      @media (min-width:1024px){ .footer-card { border-radius: 1.75rem; } }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col bg-[#fcf9f5] text-[#1c1c1a] antialiased selection:bg-[#A64C2C]/20 selection:text-buffalo-brown">
+
+    <!-- 1. HEADER / NAVIGATION -->
+    <header class="bg-[#FDF8F5] border-b border-stone-200/60 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 h-20 flex items-center justify-between">
+            <a href="../index.html" class="brand-lockup font-bold tracking-tight text-buffalo-brown">
+                <img src="../images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark">
+                <span class="brand-text">Buffalo Mall Naivasha</span>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-stone-700">
+                <a href="../index.html" class="hover:text-buffalo-brown transition-colors">Home</a>
+                <a href="shops.html" class="hover:text-buffalo-brown transition-colors">Stores</a>
+                <a href="mall.html" class="hover:text-buffalo-brown transition-colors">The Mall</a>
+                <a href="events.html" class="text-buffalo-brown border-b-2 border-buffalo-brown pb-1 transition-all">Events</a>
+                <a href="contact.html" class="bg-buffalo-brown text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-buffalo-brown/90 transition-all ml-4">
+                    Contact
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-buffalo-black focus:outline-none p-2" aria-label="Toggle Menu" aria-expanded="false">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Smooth-expanding mobile menu -->
+        <div id="mobile-menu" class="md:hidden bg-[#FDF8F5] border-t border-stone-200 shadow-xl">
+            <div class="mm-inner">
+                <div class="px-6 py-6 space-y-4">
+                    <a href="../index.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Home</a>
+                    <a href="shops.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Stores</a>
+                    <a href="mall.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">The Mall</a>
+                    <a href="events.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Events</a>
+                    <a href="contact.html" class="block text-center bg-buffalo-brown text-white px-5 py-3 rounded-xl font-semibold shadow-sm hover:bg-buffalo-brown/90 transition-all">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT SLOT -->
+    <main class="flex-grow pt-8 bg-white">
+      <div class="w-full bg-white min-h-screen py-12 px-6 md:px-16">
+        <div class="max-w-7xl mx-auto">
+          
+          <!-- Header block -->
+          <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="max-w-2xl">
+              <h2 class="text-3xl md:text-5xl font-sans font-bold text-stone-900 tracking-tight">
+                Upcoming Events
+              </h2>
+              <p class="font-serif text-[#55433d] max-w-xl mt-2">
+                Gather your family and friends for unforgettable weekend festivals, artisan food markets, and community activities right here in Naivasha.
+              </p>
+            </div>
+
+            <!-- Month filter buttons with horizontal responsive scrollbar -->
+            <div class="w-full md:w-auto overflow-hidden">
+              <div class="flex flex-nowrap gap-2 bg-white border border-[#dbc1b9] rounded-xl p-1 shrink-0 h-fit overflow-x-auto scrollbar-none pb-1" id="month-filters-container">
+                <button class="month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer bg-buffalo-brown text-white" data-month="All">
+                  All Months
+                </button>
+                <button class="month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer text-stone-600 hover:bg-[#A64C2C]/10" data-month="08">
+                  August
+                </button>
+                <button class="month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer text-stone-600 hover:bg-[#A64C2C]/10" data-month="09">
+                  September
+                </button>
+                <button class="month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer text-stone-600 hover:bg-[#A64C2C]/10" data-month="12">
+                  December
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Events Listing Column/Grid -->
+          <div class="space-y-8" id="events-list-container">
+            <!-- Dynamically populated cards -->
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- RSVP Modal (Interactive Popup) -->
+    <div id="rsvp-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/60 backdrop-blur-sm hidden">
+      <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-[#dbc1b9]/40 animate-fade-in">
+        
+        <!-- Close button -->
+        <button id="close-rsvp-modal" class="absolute top-5 right-5 text-stone-400 hover:text-stone-700 transition-colors p-1 cursor-pointer">
+          <!-- X icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <div class="text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-2">
+            <!-- Ticket SVG -->
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+            </svg>
+          </div>
+          
+          <span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-800 font-sans font-bold text-xs rounded-full">
+            RSVP Confirmed
+          </span>
+
+          <h3 id="rsvp-modal-title" class="font-sans font-extrabold text-2xl text-stone-800 tracking-tight">
+            Artisan Craft Fair
+          </h3>
+
+          <p class="font-serif text-sm text-stone-500 leading-relaxed">
+            We've generated your entry ticket! Bring this digital ticket or show it on your mobile device at the main entrance gates.
+          </p>
+
+          <!-- Ticket Box -->
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-5 border-dashed space-y-3 relative overflow-hidden">
+            <div class="flex justify-between text-left text-xs font-sans text-stone-500">
+              <div>
+                <span class="block uppercase font-bold text-[9px] tracking-wider text-stone-400">Date</span>
+                <span id="rsvp-modal-date" class="font-bold text-stone-700">2026-08-15</span>
+              </div>
+              <div class="text-right">
+                <span class="block uppercase font-bold text-[9px] tracking-wider text-stone-400">Gate Ticket</span>
+                <span id="rsvp-modal-ticket-id" class="font-bold text-stone-700">#BM-72412</span>
+              </div>
+            </div>
+
+            <div class="border-t border-stone-200/60 pt-3 flex justify-between items-center">
+              <span class="text-[10px] font-sans font-extrabold uppercase tracking-widest text-buffalo-brown">Buffalo Mall Pass</span>
+              <span class="text-xs font-sans font-bold text-emerald-700">Free Admission</span>
+            </div>
+          </div>
+
+          <button id="confirm-rsvp-ok" class="w-full bg-buffalo-brown text-white py-3.5 rounded-xl font-sans font-semibold text-sm hover:bg-buffalo-brown/90 transition-colors cursor-pointer">
+            Awesome, see you there!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="text-white pt-14 pb-6 px-6 md:px-12 lg:px-16" style="background:#A64C2C;">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Top row: brand + primary links + contacts on ONE line at lg -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 border-b border-white/15">
+                <div class="lg:col-span-4">
+                    <a href="../index.html" class="brand-lockup font-bold tracking-tight text-white">
+                        <img src="../images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark brightness-0 invert">
+                        <span class="brand-text">Buffalo Mall Naivasha</span>
+                    </a>
+                    <p class="mt-4 text-white/75 text-sm leading-relaxed max-w-sm">
+                        The perfect stop in the heart of Naivasha to shop, eat and unwind, with secure parking for the whole family.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Explore</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="mall.html" class="hover:text-white transition-colors">About the Mall</a></li>
+                        <li><a href="shops.html" class="hover:text-white transition-colors">Store Directory</a></li>
+                        <li><a href="shops.html" class="hover:text-white transition-colors">Restaurants</a></li>
+                        <li><a href="events.html" class="hover:text-white transition-colors">Events &amp; News</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Visiting</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Opening Hours</a></li>
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Getting Here</a></li>
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Parking</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-4 space-y-4">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Say Hello</span>
+                        <a href="mailto:info@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            info@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Leasing</span>
+                        <a href="mailto:leasing@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            leasing@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two feature cards, tighter -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 py-10">
+                <a href="contact.html" class="lg:col-span-7 footer-card bg-buffalo-black p-8 md:p-10 flex flex-col justify-between min-h-[200px] group hover:bg-black transition-colors">
+                    <div>
+                        <span class="text-stone-400 text-xs font-medium tracking-widest uppercase block mb-2">Want to set up shop?</span>
+                        <h3 class="text-lg md:text-xl font-light text-stone-200 leading-relaxed">Let's talk leasing availability. No strings attached.</h3>
+                    </div>
+                    <span class="text-2xl md:text-3xl font-bold tracking-tight mt-6 text-white group-hover:text-buffalo-brown transition-colors">
+                        Let's talk →
+                    </span>
+                </a>
+
+                <div class="lg:col-span-5 footer-card bg-white/10 border border-white/20 p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
+                    <div>
+                        <span class="text-white text-xs font-semibold tracking-widest uppercase block mb-2">Events &amp; Pop-ups</span>
+                        <h3 class="text-lg md:text-xl font-normal text-white/90 leading-snug">Book temporary activation spaces to scale your local brand.</h3>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold tracking-tight text-white mt-6">
+                        Space Masterplan
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wordmark strip -->
+            <div class="border-t border-white/15 pt-6">
+                <div class="w-full flex flex-wrap items-center justify-center lg:justify-between text-white font-extrabold tracking-tighter uppercase selection:bg-buffalo-black selection:text-white">
+                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Shop, Eat,Relax</span>
+                </div>
+            </div>
+
+            <!-- Legal line: single row, small -->
+            <div class="flex flex-col md:flex-row items-center justify-between border-t border-white/15 mt-6 pt-5 text-[11px] font-medium text-white/70 uppercase tracking-wider gap-3">
+                <div>&copy; <span id="year">2026</span> Buffalo Mall Naivasha</div>
+                <div class="flex items-center gap-3">
+                    <span>Naivasha, Kenya</span>
+                    <span class="text-white/30">•</span>
+                    <a href="http://www.buffalomallnaivasha.com" class="hover:text-white transition-colors">buffalomallnaivasha.com</a>
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Imprint</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+
+            <div class="text-center pt-4 text-[10px] font-medium text-white/50 uppercase tracking-wider">
+                Created by
+                <a href="https://sketchbook.co.ke" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white hover:underline font-bold">Sketchbook.co.ke</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ FLOATING TOOLS DOCK ============ -->
+    <div id="tools-dock" aria-label="Quick tools">
+        <div id="tools-panel">
+            <!-- Translate -->
+            <button type="button" class="tool-btn" id="translate-btn" aria-label="Translate page" title="Translate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 5h10"/><path d="M9 3v2c0 4.5-2.5 8-5 10"/><path d="M5 9c1.5 3.5 4 6 7 8"/>
+                    <path d="M13 21l4-10 4 10"/><path d="M14.5 17.5h5"/>
+                </svg>
+            </button>
+            <div id="translate-pop">
+                <div id="google_translate_element"></div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" class="tool-btn" aria-label="Contact us" title="Contact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>
+                </svg>
+            </a>
+
+            <!-- Scroll to top -->
+            <button type="button" class="tool-btn" id="scrollTopBtn" aria-label="Scroll to top" title="Back to top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <button type="button" id="tools-toggle" aria-label="Open quick tools" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"/><path d="M5 12h14"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Dynamic Events & Filtering & RSVP Modal -->
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const EVENTS = [
+        {
+          id: 'artisan-fair',
+          title: 'Artisan Craft Fair',
+          date: '2026-08-15',
+          month: '08',
+          location: 'Main Exhibition Courtyard',
+          imageUrl: 'https://images.unsplash.com/photo-1531058020387-3be344559be6?q=80&w=600&auto=format&fit=crop',
+          description: 'Discover unique handmade treasures, contemporary textiles, beaded jewelry, and custom woodcarvings crafted by gifted local Kenyan artisans and creators.',
+          schedule: '10:00 AM - 6:00 PM',
+          admission: 'Free Entry'
+        },
+        {
+          id: 'taste-naivasha',
+          title: 'Taste of Naivasha',
+          date: '2026-09-05',
+          month: '09',
+          location: 'Alfresco Dining Wing & Gardens',
+          imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop',
+          description: 'A gourmet culinary tour within Buffalo Mall featuring live chef demonstrations, wine pairings, Rift Valley organic cheese tastings, and soothing live jazz.',
+          schedule: '12:00 PM - 9:00 PM',
+          admission: 'Free Entry'
+        },
+        {
+          id: 'family-fun',
+          title: 'Family Fun Weekend',
+          date: '2026-09-20',
+          month: '09',
+          location: 'Central Promenade Lawn',
+          imageUrl: 'https://images.unsplash.com/photo-1472653423608-ee24dd7146c0?q=80&w=600&auto=format&fit=crop',
+          description: 'A high-energy weekend of fun for the kids featuring bouncy castles, face painting, interactive children’s clay modeling, and comedy puppet shows.',
+          schedule: '10:00 AM - 5:00 PM',
+          admission: 'Free Entry'
+        },
+        {
+          id: 'xmas-tree',
+          title: 'Christmas Tree Lighting',
+          date: '2026-12-05',
+          month: '12',
+          location: 'Grand Entrance Atrium',
+          imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600&auto=format&fit=crop',
+          description: 'Kickstart the festive holiday season with the ceremonial lighting of Naivasha’s tallest Christmas tree, complete with live orchestral choirs, carolers, and treats.',
+          schedule: '6:30 PM - 8:30 PM',
+          admission: 'Free Entry'
+        }
+      ];
+
+      let selectedMonth = 'All';
+
+      const monthFilterBtnElements = document.querySelectorAll('.month-filter-btn');
+      const eventsListContainer = document.getElementById('events-list-container');
+
+      const rsvpModal = document.getElementById('rsvp-modal');
+      const rsvpModalTitle = document.getElementById('rsvp-modal-title');
+      const rsvpModalDate = document.getElementById('rsvp-modal-date');
+      const rsvpModalTicketId = document.getElementById('rsvp-modal-ticket-id');
+      const closeRsvpModal = document.getElementById('close-rsvp-modal');
+      const confirmRsvpOk = document.getElementById('confirm-rsvp-ok');
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderFilteredEvents();
+      });
+
+      function renderFilteredEvents() {
+        const filtered = EVENTS.filter(evt => {
+          return selectedMonth === 'All' || evt.month === selectedMonth;
+        });
+
+        eventsListContainer.innerHTML = '';
+        
+        filtered.forEach(evt => {
+          const card = document.createElement('div');
+          card.className = 'bg-white border border-[#dbc1b9]/50 rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all duration-300';
+          card.innerHTML = `
+            <div class="md:w-2/5 min-h-[250px] relative overflow-hidden shrink-0">
+              <img 
+                src="${evt.imageUrl}" 
+                alt="${evt.title}" 
+                class="w-full h-full object-cover object-center"
+                referrerPolicy="no-referrer"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-stone-950/40 to-transparent"></div>
+            </div>
+
+            <div class="p-8 md:p-10 flex flex-col justify-between flex-grow space-y-6 text-left">
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-block text-[10px] uppercase tracking-widest px-2.5 py-1 rounded font-sans font-extrabold bg-buffalo-brown text-white">
+                    ${evt.date}
+                  </span>
+                  <span class="text-xs font-sans font-bold text-stone-400 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>${evt.location}</span>
+                  </span>
+                </div>
+
+                <h3 class="font-sans font-extrabold text-2xl md:text-3xl text-stone-800 tracking-tight">
+                  ${evt.title}
+                </h3>
+
+                <p class="font-serif text-stone-500 leading-relaxed text-sm md:text-base">
+                  ${evt.description}
+                </p>
+              </div>
+
+              <div class="border-t border-stone-100 pt-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-sans">
+                <div class="flex gap-6 text-stone-600 font-semibold uppercase tracking-wider">
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>${evt.schedule}</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>${evt.admission}</span>
+                  </div>
+                </div>
+
+                <button class="rsvp-btn inline-flex items-center gap-2 bg-buffalo-brown text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl shadow hover:bg-buffalo-brown/90 hover:shadow-md transition-all cursor-pointer active:scale-95" data-title="${evt.title}" data-date="${evt.date}">
+                  <span>RSVP for Free Pass</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+
+          const rsvpButton = card.querySelector('.rsvp-btn');
+          rsvpButton.addEventListener('click', () => {
+            const title = rsvpButton.getAttribute('data-title');
+            const date = rsvpButton.getAttribute('data-date');
+            
+            const ticketId = `#BM-${Math.floor(10000 + Math.random() * 90000)}`;
+
+            rsvpModalTitle.textContent = title;
+            rsvpModalDate.textContent = date;
+            rsvpModalTicketId.textContent = ticketId;
+
+            rsvpModal.classList.remove('hidden');
+          });
+
+          eventsListContainer.appendChild(card);
+        });
+      }
+
+      closeRsvpModal.addEventListener('click', () => {
+        rsvpModal.classList.add('hidden');
+      });
+      confirmRsvpOk.addEventListener('click', () => {
+        rsvpModal.classList.add('hidden');
+      });
+
+      monthFilterBtnElements.forEach(btn => {
+        btn.addEventListener('click', () => {
+          monthFilterBtnElements.forEach(b => {
+            b.className = 'month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer text-stone-600 hover:bg-[#A64C2C]/10';
+          });
+          btn.className = 'month-filter-btn shrink-0 px-4 py-2 rounded-lg font-sans font-bold text-xs uppercase tracking-wider transition-all cursor-pointer bg-buffalo-brown text-white';
+          selectedMonth = btn.getAttribute('data-month');
+          renderFilteredEvents();
+        });
+      });
+
+      // -------- Mobile menu: smooth expand --------
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      menuBtn.addEventListener('click', () => {
+          const open = mobileMenu.classList.toggle('is-open');
+          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          menuIcon.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+          menuIcon.innerHTML = open
+              ? '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>'
+              : '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>';
+      });
+
+      // -------- Floating tools dock --------
+      const dock = document.getElementById('tools-dock');
+      const toolsToggle = document.getElementById('tools-toggle');
+      const translateBtn = document.getElementById('translate-btn');
+      const translatePop = document.getElementById('translate-pop');
+
+      toolsToggle.addEventListener('click', () => {
+          const open = dock.classList.toggle('is-open');
+          toolsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (!open) translatePop.classList.remove('is-open');
+      });
+
+      document.addEventListener('click', (e) => {
+          if (!dock.contains(e.target)) {
+              dock.classList.remove('is-open');
+              translatePop.classList.remove('is-open');
+              toolsToggle.setAttribute('aria-expanded','false');
+          }
+      });
+
+      translateBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          translatePop.classList.toggle('is-open');
+      });
+
+      document.getElementById('scrollTopBtn').addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          dock.classList.remove('is-open');
+      });
+
+      function googleTranslateElementInit(){
+          new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'en,sw,fr,es,de,zh-CN,ar',
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: false
+          }, 'google_translate_element');
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  </body>
+</html>
