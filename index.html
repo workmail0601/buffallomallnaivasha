@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buffalo Mall Naivasha | Shop. Eat. Relax.</title>
+    <meta name="theme-color" content="#A64C2C">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="images/logos/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/logos/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logos/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logos/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="images/logos/favicons/site.webmanifest">
+
+    <!-- Tailwind CSS v4 Browser Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{--buffalo-brown:#A64C2C;--buffalo-black:#111111;--buffalo-bg:#FDF8F5;}
+        .bg-buffalo-brown{background:var(--buffalo-brown)!important}
+        .text-buffalo-brown{color:var(--buffalo-brown)!important}
+        .border-buffalo-brown{border-color:var(--buffalo-brown)!important}
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Marquee */
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .animate-marquee { display:flex; width:max-content; animation:marquee 160s linear infinite; }
+        .animate-marquee:hover { animation-play-state:paused; }
+
+        /* Event card fade */
+        .event-card-inner { transition: opacity 0.5s ease, transform 0.5s ease; }
+        .event-card-inner.is-fading { opacity: 0; transform: scale(1.01); }
+
+        .shop-logo-fallback {
+            display:none; align-items:center; justify-content:center;
+            width:100%; height:100%; font-weight:800; color:#A64C2C; letter-spacing:-0.02em;
+        }
+
+        /* --- Logo lockup: image scales with the wordmark line-height --- */
+        .brand-lockup { display:inline-flex; align-items:center; gap:0.75rem; line-height:1; }
+        .brand-lockup .brand-mark {
+            height: 2.1em; /* larger, legible brand mark */
+            width: 2.1em;
+            object-fit: contain;
+            display: block;
+        }
+        .brand-lockup .brand-text { font-size: 1.25rem; line-height: 1.05; letter-spacing: -0.01em; }
+        @media (min-width: 768px){ .brand-lockup .brand-text { font-size: 1.4rem; } }
+
+        /* --- Mobile menu smooth expand (grid-rows trick, no layout jump) --- */
+        #mobile-menu {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 350ms cubic-bezier(.4,0,.2,1),
+                        opacity 250ms ease;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu > .mm-inner { min-height: 0; overflow: hidden; }
+        #mobile-menu.is-open { grid-template-rows: 1fr; opacity: 1; }
+
+        /* --- Floating tools dock (right side, collapsible) --- */
+        #tools-dock {
+            position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 999;
+            display: flex; flex-direction: column; align-items: flex-end; gap: .6rem;
+        }
+        #tools-panel {
+            display: flex; flex-direction: column; gap: .55rem;
+            transform-origin: bottom right;
+            transform: scale(.6) translateY(10px);
+            opacity: 0; pointer-events: none;
+            transition: transform 260ms cubic-bezier(.34,1.56,.64,1), opacity 200ms ease;
+        }
+        #tools-dock.is-open #tools-panel {
+            transform: scale(1) translateY(0);
+            opacity: 1; pointer-events: auto;
+        }
+        .tool-btn {
+            width: 44px; height: 44px; border-radius: 9999px;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #fff; color: var(--buffalo-brown);
+            box-shadow: 0 6px 18px -6px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.08);
+            border: 1px solid rgba(0,0,0,.05);
+            transition: transform .18s ease, background .18s ease, color .18s ease;
+        }
+        .tool-btn:hover { transform: translateY(-2px); background: var(--buffalo-brown); color:#fff; }
+        .tool-btn svg { width: 20px; height: 20px; }
+        #tools-toggle {
+            width: 54px; height: 54px; border-radius: 9999px;
+            background: var(--buffalo-brown); color:#fff;
+            display:inline-flex; align-items:center; justify-content:center;
+            box-shadow: 0 10px 24px -8px rgba(166,76,44,.6), 0 4px 10px rgba(0,0,0,.12);
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+        }
+        #tools-dock.is-open #tools-toggle { transform: rotate(45deg); }
+        #tools-toggle svg { width: 22px; height: 22px; }
+
+        /* Translate popover */
+        #translate-pop {
+            position: absolute; right: 60px; bottom: 0;
+            background:#fff; border-radius: 14px; padding: .5rem .6rem;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,.25);
+            display:none;
+        }
+        #translate-pop.is-open { display:block; }
+        /* Neutralize Google's default widget chrome */
+        .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; color: transparent !important; }
+        .goog-te-gadget .goog-te-combo {
+            margin: 0 !important; padding: .4rem .6rem !important;
+            border: 1px solid #e5e5e5 !important; border-radius: 8px !important;
+            font-size: 13px !important; font-family: inherit !important;
+            color: #111 !important; background:#fff !important; outline:none;
+        }
+        .goog-te-gadget > span, .goog-logo-link, .goog-te-gadget img { display:none !important; }
+        body { top: 0 !important; } /* stop the Google banner push */
+        .skiptranslate.goog-te-banner-frame { display: none !important; }
+
+        /* Slightly tighter, less clunky footer utility */
+        .footer-card { border-radius: 1.5rem; }
+        @media (min-width:1024px){ .footer-card { border-radius: 1.75rem; } }
+    </style>
+</head>
+<body class="bg-[#FDF8F5] text-buffalo-black antialiased flex flex-col min-h-screen">
+
+    <header class="bg-[#FDF8F5] border-b border-stone-200/60 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 h-20 flex items-center justify-between">
+            <a href="index.html" class="brand-lockup font-bold tracking-tight text-buffalo-brown">
+                <img src="images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark">
+                <span class="brand-text">Buffalo Mall Naivasha</span>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-stone-700">
+                <a href="index.html" class="text-buffalo-brown border-b-2 border-buffalo-brown pb-1 transition-all">Home</a>
+                <a href="shops.html" class="hover:text-buffalo-brown transition-colors">Stores</a>
+                <a href="#" class="hover:text-buffalo-brown transition-colors">The Mall</a>
+                <a href="events.html" class="hover:text-buffalo-brown transition-colors">Events</a>
+                <a href="#" class="bg-buffalo-brown text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-buffalo-brown/90 transition-all ml-4">
+                    Contact
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-buffalo-black focus:outline-none p-2" aria-label="Toggle Menu" aria-expanded="false">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Smooth-expanding mobile menu -->
+        <div id="mobile-menu" class="md:hidden bg-[#FDF8F5] border-t border-stone-200 shadow-xl">
+            <div class="mm-inner">
+                <div class="px-6 py-6 space-y-4">
+                    <a href="index.html" class="block text-lg font-semibold text-buffalo-brown">Home</a>
+                    <a href="shops.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Stores</a>
+                    <a href="#" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">The Mall</a>
+                    <a href="events.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Events</a>
+                    <a href="#" class="block text-center bg-buffalo-brown text-white px-5 py-3 rounded-xl font-semibold shadow-sm hover:bg-buffalo-brown/90 transition-all">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow bg-white">
+
+        <section class="relative min-h-[85vh] lg:min-h-[90vh] flex items-center bg-stone-900 overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1555636222-cae831e87094?q=80&w=1920&auto=format&fit=crop"
+                     alt="Modern Shopping Complex Architecture"
+                     class="w-full h-full object-cover object-center scale-105 brightness-75 contrast-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-buffalo-black/90 via-buffalo-black/40 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-buffalo-black/50 via-transparent to-transparent"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-20 w-full text-white">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-md">
+                        Shop, Eat and Relax in the Heart of Naivasha
+                    </h1>
+                    <p class="text-lg sm:text-xl text-stone-200 font-light max-w-2xl leading-relaxed mb-10 drop-shadow-sm">
+                        The perfect stop to recharge, explore and find everything your family needs, all with secure parking.
+                    </p>
+                    <a href="shops.html" class="inline-flex items-center bg-buffalo-brown text-white text-base font-semibold px-6 py-4 rounded-xl shadow-lg hover:bg-buffalo-brown/90 hover:translate-x-1 transition-all group">
+                        <span>Which shop do you want to visit?</span>
+                        <svg class="w-5 h-5 ml-3 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="bg-[#FDF8F5] py-20 px-6 md:px-12 lg:px-16 overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-buffalo-brown font-bold block mb-3">Discover The Best</span>
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-buffalo-black max-w-xl">
+                            Find something for everyone you love
+                        </h2>
+                    </div>
+                    <div>
+                        <a href="shops.html" class="inline-flex items-center text-sm font-bold text-buffalo-brown hover:text-buffalo-black transition-colors group pb-1 border-b border-transparent hover:border-buffalo-black">
+                            <span>View all 50+ stores</span>
+                            <svg class="w-4 h-4 ml-2 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative w-full overflow-hidden py-4 mask-gradient">
+                    <div id="shops-marquee" class="animate-marquee space-x-6"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="bg-[#FDF8F5] pb-24 pt-4 px-6 md:px-12 lg:px-16">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-buffalo-black mb-4">
+                        Where Naivasha comes alive
+                    </h2>
+                    <p class="text-stone-600 font-normal leading-relaxed text-sm md:text-base">
+                        Experience the vibrant spirit of our community through seasonal festivals, workshops, and family gatherings.
+                    </p>
+                </div>
+
+                <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[460px]">
+                    <div class="event-card relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col min-h-[440px]" data-slot="0"></div>
+                    <div class="event-card relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col min-h-[440px]" data-slot="1"></div>
+                    <div class="event-card relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col min-h-[440px]" data-slot="2"></div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="events.html" class="inline-block bg-transparent text-buffalo-brown border border-buffalo-brown/40 hover:border-buffalo-brown bg-[#FDF8F5] px-8 py-3.5 rounded-xl font-semibold text-sm transition-all shadow-sm hover:shadow-md">
+                        See All Upcoming Events
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER (tightened, less clunky) ================= -->
+    <footer class="text-white pt-14 pb-6 px-6 md:px-12 lg:px-16" style="background:#A64C2C;">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Top row: brand + primary links + contacts on ONE line at lg -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 border-b border-white/15">
+                <div class="lg:col-span-4">
+                    <a href="index.html" class="brand-lockup font-bold tracking-tight text-white">
+                        <img src="images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark brightness-0 invert">
+                        <span class="brand-text">Buffalo Mall Naivasha</span>
+                    </a>
+                    <p class="mt-4 text-white/75 text-sm leading-relaxed max-w-sm">
+                        The perfect stop in the heart of Naivasha to shop, eat and unwind — with secure parking for the whole family.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Explore</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="#" class="hover:text-white transition-colors">About the Mall</a></li>
+                        <li><a href="shops.html" class="hover:text-white transition-colors">Store Directory</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Restaurants</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Events &amp; News</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Visiting</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="#" class="hover:text-white transition-colors">Opening Hours</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Getting Here</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Parking</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-4 space-y-4">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Say Hello</span>
+                        <a href="mailto:info@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            info@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Leasing</span>
+                        <a href="mailto:leasing@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            leasing@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two feature cards, tighter -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 py-10">
+                <a href="#contact" class="lg:col-span-7 footer-card bg-buffalo-black p-8 md:p-10 flex flex-col justify-between min-h-[200px] group hover:bg-black transition-colors">
+                    <div>
+                        <span class="text-stone-400 text-xs font-medium tracking-widest uppercase block mb-2">Want to set up shop?</span>
+                        <h3 class="text-lg md:text-xl font-light text-stone-200 leading-relaxed">Let's talk leasing availability. No strings attached.</h3>
+                    </div>
+                    <span class="text-2xl md:text-3xl font-bold tracking-tight mt-6 text-white group-hover:text-buffalo-brown transition-colors">
+                        Let's talk →
+                    </span>
+                </a>
+
+                <div class="lg:col-span-5 footer-card bg-white/10 border border-white/20 p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
+                    <div>
+                        <span class="text-white text-xs font-semibold tracking-widest uppercase block mb-2">Events &amp; Pop-ups</span>
+                        <h3 class="text-lg md:text-xl font-normal text-white/90 leading-snug">Book temporary activation spaces to scale your local brand.</h3>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold tracking-tight text-white mt-6">
+                        Space Masterplan
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wordmark strip -->
+            <div class="border-t border-white/15 pt-6">
+                <div class="w-full flex flex-wrap items-center justify-center lg:justify-between text-white font-extrabold tracking-tighter uppercase selection:bg-buffalo-black selection:text-white">
+                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Shop, Eat,</span>
+                    <div class="inline-flex items-center justify-center p-1 mx-2 text-white">
+                        <svg class="w-[7vw] h-[7vw] sm:w-[5vw] sm:h-[5vw] lg:w-[3vw] lg:h-[3vw]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="11"/>
+                            <circle cx="34" cy="40" r="6" fill="currentColor"/>
+                            <circle cx="66" cy="40" r="6" fill="currentColor"/>
+                            <path d="M30 60C30 71.0457 38.9543 80 50 80C61.0457 80 70 71.0457 70 60" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Relax</span>
+                </div>
+            </div>
+
+            <!-- Legal line: single row, small -->
+            <div class="flex flex-col md:flex-row items-center justify-between border-t border-white/15 mt-6 pt-5 text-[11px] font-medium text-white/70 uppercase tracking-wider gap-3">
+                <div>&copy; <span id="year">2026</span> Buffalo Mall Naivasha</div>
+                <div class="flex items-center gap-3">
+                    <span>Naivasha, Kenya</span>
+                    <span class="text-white/30">•</span>
+                    <a href="http://www.buffalomallnaivasha.com" class="hover:text-white transition-colors">buffalomallnaivasha.com</a>
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Imprint</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+
+            <div class="text-center pt-4 text-[10px] font-medium text-white/50 uppercase tracking-wider">
+                Created by
+                <a href="https://sketchbook.co.ke" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white hover:underline font-bold">Sketchbook.co.ke</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ FLOATING TOOLS DOCK (right side, collapsible) ============ -->
+    <div id="tools-dock" aria-label="Quick tools">
+        <div id="tools-panel">
+            <!-- Translate -->
+            <button type="button" class="tool-btn" id="translate-btn" aria-label="Translate page" title="Translate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 5h10"/><path d="M9 3v2c0 4.5-2.5 8-5 10"/><path d="M5 9c1.5 3.5 4 6 7 8"/>
+                    <path d="M13 21l4-10 4 10"/><path d="M14.5 17.5h5"/>
+                </svg>
+            </button>
+            <div id="translate-pop">
+                <div id="google_translate_element"></div>
+            </div>
+
+            <!-- Contact -->
+            <a href="#contact" class="tool-btn" aria-label="Contact us" title="Contact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>
+                </svg>
+            </a>
+
+            <!-- Scroll to top -->
+            <button type="button" class="tool-btn" id="scrollTopBtn" aria-label="Scroll to top" title="Back to top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <button type="button" id="tools-toggle" aria-label="Open quick tools" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"/><path d="M5 12h14"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // -------- Mobile menu: smooth expand --------
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        menuBtn.addEventListener('click', () => {
+            const open = mobileMenu.classList.toggle('is-open');
+            menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            menuIcon.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+            menuIcon.innerHTML = open
+                ? '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>'
+                : '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>';
+        });
+
+        // -------- Floating tools dock --------
+        const dock = document.getElementById('tools-dock');
+        const toolsToggle = document.getElementById('tools-toggle');
+        const translateBtn = document.getElementById('translate-btn');
+        const translatePop = document.getElementById('translate-pop');
+
+        toolsToggle.addEventListener('click', () => {
+            const open = dock.classList.toggle('is-open');
+            toolsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (!open) translatePop.classList.remove('is-open');
+        });
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dock.contains(e.target)) {
+                dock.classList.remove('is-open');
+                translatePop.classList.remove('is-open');
+                toolsToggle.setAttribute('aria-expanded','false');
+            }
+        });
+
+        translateBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            translatePop.classList.toggle('is-open');
+        });
+
+        // Smooth scroll to top
+        document.getElementById('scrollTopBtn').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            dock.classList.remove('is-open');
+        });
+
+        // -------- Google Translate: top 7 langs incl. Swahili --------
+        function googleTranslateElementInit(){
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,sw,fr,es,de,zh-CN,ar',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // ----------------------------------------------------
+        // SHOPS MARQUEE
+        // ----------------------------------------------------
+        const shopsData = [
+            { name: "Java House", category: "Dining", logo: "images/logos/shops/java-house.png" },
+            { name: "Samsung", category: "Electronics", logo: "images/logos/shops/samsung.png" },
+            { name: "Goodlife", category: "Pharmacy", logo: "images/logos/shops/goodlife.png" },
+            { name: "Carrefour", category: "Supermarket", logo: "images/logos/shops/carrefour.png" },
+            { name: "Optica", category: "Eyewear", logo: "images/logos/shops/optica.png" }
+        ];
+        function initials(name){ return name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(); }
+        function shopCardHTML(shop){
+            return `
+                <a href="shops.html" class="w-72 bg-white p-8 rounded-2xl shadow-sm border border-stone-100 flex flex-col justify-between hover:shadow-md hover:border-buffalo-brown/30 transition-all group">
+                    <div class="w-14 h-14 rounded-xl bg-buffalo-brown/10 overflow-hidden">
+                        <img src="${shop.logo}" alt="${shop.name} logo" class="w-full h-full object-contain p-2"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="shop-logo-fallback">${initials(shop.name)}</div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="text-2xl font-bold tracking-tight text-buffalo-black group-hover:text-buffalo-brown transition-colors">${shop.name}</div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-stone-400 mt-2">${shop.category}</div>
+                    </div>
+                </a>`;
+        }
+        const marqueeEl = document.getElementById('shops-marquee');
+        marqueeEl.innerHTML = shopsData.map(shopCardHTML).join('') + shopsData.map(shopCardHTML).join('');
+
+        // ----------------------------------------------------
+        // EVENTS — persistent card slots, independent cross-fade
+        // ----------------------------------------------------
+        const eventsData = [
+            { title: "Artisan Craft Fair", description: "Discover unique handmade treasures from local Kenyan creators and designers.", date: "2024-11-24", image: "https://images.unsplash.com/photo-1531058020387-3be344559be6?q=80&w=600&auto=format&fit=crop" },
+            { title: "Taste of Naivasha", description: "A culinary journey featuring special menus and live jazz music in the hearth.", date: "2024-12-05", image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop" },
+            { title: "Family Fun Weekend", description: "Interactive games, live entertainment and special treats for the little ones.", date: "2024-12-15", image: "https://images.unsplash.com/photo-1472653423608-ee24dd7146c0?q=80&w=600&auto=format&fit=crop" },
+            { title: "Naivasha Fashion Week", description: "Highlighting runway trends, collections, and contemporary styles by top designers.", date: "2026-08-12", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=600&auto=format&fit=crop" },
+            { title: "Organic Farmer's Market", description: "Sourced direct from Rift Valley fields—fresh farm vegetables, fruits, honey, and dairy products.", date: "2026-09-02", image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=600&auto=format&fit=crop" },
+            { title: "Live Acoustic Nights", description: "Wind down your weekend with soothing acoustic sounds from regional musicians.", date: "2026-09-20", image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop" }
+        ];
+        function formatDateDisplay(dateString){
+            return new Date(dateString).toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+        }
+        function eventInnerHTML(event){
+            const today = new Date("2026-07-07");
+            const isPast = new Date(event.date) < today;
+            const imageClass = isPast ? 'grayscale brightness-75' : '';
+            const tagLabel = isPast ? 'Past Event' : formatDateDisplay(event.date);
+            const tagBgClass = isPast ? 'bg-stone-500/80' : 'bg-buffalo-brown/90';
+            return `
+                <div class="absolute inset-0 z-0 overflow-hidden">
+                    <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ${imageClass}">
+                    <div class="absolute inset-0 bg-gradient-to-t from-buffalo-black/95 via-buffalo-black/50 to-transparent"></div>
+                </div>
+                <div class="relative z-10 mt-auto p-8 text-white">
+                    <span class="inline-block text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-bold mb-4 ${tagBgClass}">${tagLabel}</span>
+                    <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-buffalo-brown transition-colors">${event.title}</h3>
+                    <p class="text-stone-300 font-light text-sm leading-relaxed">${event.description}</p>
+                </div>`;
+        }
+        const slots = Array.from(document.querySelectorAll('.event-card'));
+        const slotEventIndex = slots.map((_,i)=> i % eventsData.length);
+        function paintSlot(slotIndex, animate){
+            const slotEl = slots[slotIndex];
+            const event = eventsData[slotEventIndex[slotIndex]];
+            let inner = slotEl.querySelector('.event-card-inner');
+            if (!inner){
+                inner = document.createElement('div');
+                inner.className = 'event-card-inner group absolute inset-0 flex flex-col';
+                slotEl.appendChild(inner);
+            }
+            if (!animate){ inner.innerHTML = eventInnerHTML(event); return; }
+            inner.classList.add('is-fading');
+            setTimeout(()=>{ inner.innerHTML = eventInnerHTML(event); inner.classList.remove('is-fading'); }, 500);
+        }
+        slots.forEach((_,i)=> paintSlot(i,false));
+        setInterval(()=>{
+            const slotIndex = Math.floor(Math.random()*slots.length);
+            slotEventIndex[slotIndex] = (slotEventIndex[slotIndex]+slots.length) % eventsData.length;
+            paintSlot(slotIndex, true);
+        }, 3200);
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
