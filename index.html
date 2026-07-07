@@ -172,19 +172,21 @@
 
         <section class="relative min-h-[85vh] lg:min-h-[90vh] flex items-center bg-stone-900 overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1555636222-cae831e87094?q=80&w=1920&auto=format&fit=crop"
+                <img src="images/005.webp"
                      alt="Modern Shopping Complex Architecture"
-                     class="w-full h-full object-cover object-center scale-105 brightness-75 contrast-105" />
-                <div class="absolute inset-0 bg-gradient-to-t from-buffalo-black/90 via-buffalo-black/40 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-buffalo-black/50 via-transparent to-transparent"></div>
+                     class="w-full h-full object-cover object-center scale-105 brightness-90 contrast-105" />
+                <!-- Enhanced high-contrast dark overlay gradient for readability -->
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
             </div>
 
             <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-20 w-full text-white">
                 <div class="max-w-3xl">
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-md">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-lg text-white">
                         Shop, Eat and Relax in the Heart of Naivasha
                     </h1>
-                    <p class="text-lg sm:text-xl text-stone-200 font-light max-w-2xl leading-relaxed mb-10 drop-shadow-sm">
+                    <p class="text-lg sm:text-xl text-stone-100 font-normal max-w-2xl leading-relaxed mb-10 drop-shadow-md">
                         The perfect stop to recharge, explore and find everything your family needs, all with secure parking.
                     </p>
                     <a href="shops.html" class="inline-flex items-center bg-buffalo-brown text-white text-base font-semibold px-6 py-4 rounded-xl shadow-lg hover:bg-buffalo-brown/90 hover:translate-x-1 transition-all group">
@@ -246,6 +248,27 @@
                         See All Upcoming Events
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Leasing Banner Section based on image_86a37b.jpg layout -->
+        <section class="relative py-24 px-6 md:px-12 lg:px-16 overflow-hidden bg-stone-900 text-center">
+            <div class="absolute inset-0 z-0">
+                <img src="images/006.webp" alt="Leasing Opportunities at Buffalo Mall" class="w-full h-full object-cover object-center">
+                <!-- Warm brown-tinted high contrast protection layers mimicking image_86a37b.jpg design -->
+                <div class="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-[#A64C2C]/75 to-stone-950/80 mixed-blend-multiply"></div>
+            </div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto text-white flex flex-col items-center justify-center">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 drop-shadow-md">
+                    Naivasha is waiting for your business
+                </h2>
+                <p class="text-base sm:text-lg text-stone-100 font-normal max-w-2xl leading-relaxed mb-8 drop-shadow-sm">
+                    Join the premier retail destination in the Rift Valley. Secure your spot among international brands and local favorites today.
+                </p>
+                <a href="#contact" class="inline-block bg-white text-[#A64C2C] hover:bg-stone-100 font-semibold px-8 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all">
+                    Inquire About Leasing
+                </a>
             </div>
         </section>
 
@@ -328,16 +351,7 @@
             <!-- Wordmark strip -->
             <div class="border-t border-white/15 pt-6">
                 <div class="w-full flex flex-wrap items-center justify-center lg:justify-between text-white font-extrabold tracking-tighter uppercase selection:bg-buffalo-black selection:text-white">
-                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Shop, Eat,</span>
-                    <div class="inline-flex items-center justify-center p-1 mx-2 text-white">
-                        <svg class="w-[7vw] h-[7vw] sm:w-[5vw] sm:h-[5vw] lg:w-[3vw] lg:h-[3vw]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="11"/>
-                            <circle cx="34" cy="40" r="6" fill="currentColor"/>
-                            <circle cx="66" cy="40" r="6" fill="currentColor"/>
-                            <path d="M30 60C30 71.0457 38.9543 80 50 80C61.0457 80 70 71.0457 70 60" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Relax</span>
+                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Shop, Eat,Relax</span>
                 </div>
             </div>
 
@@ -460,11 +474,11 @@
         // SHOPS MARQUEE
         // ----------------------------------------------------
         const shopsData = [
-            { name: "Java House", category: "Dining", logo: "images/logos/shops/java-house.png" },
-            { name: "Samsung", category: "Electronics", logo: "images/logos/shops/samsung.png" },
-            { name: "Goodlife", category: "Pharmacy", logo: "images/logos/shops/goodlife.png" },
-            { name: "Carrefour", category: "Supermarket", logo: "images/logos/shops/carrefour.png" },
-            { name: "Optica", category: "Eyewear", logo: "images/logos/shops/optica.png" }
+            { name: "Java House", category: "Dining", logo: "images/002.webp" },
+            { name: "Samsung", category: "Electronics", logo: "images/004.webp" },
+            { name: "Goodlife", category: "Pharmacy", logo: "images/00.webp" },
+            { name: "Carrefour", category: "Supermarket", logo: "images/001.webp" },
+            { name: "Optica", category: "Eyewear", logo: "images/003.webp" }
         ];
         function initials(name){ return name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(); }
         function shopCardHTML(shop){
@@ -501,18 +515,20 @@
         function eventInnerHTML(event){
             const today = new Date("2026-07-07");
             const isPast = new Date(event.date) < today;
-            const imageClass = isPast ? 'grayscale brightness-75' : '';
+            const imageClass = isPast ? 'grayscale brightness-50' : 'brightness-90';
             const tagLabel = isPast ? 'Past Event' : formatDateDisplay(event.date);
-            const tagBgClass = isPast ? 'bg-stone-500/80' : 'bg-buffalo-brown/90';
+            const tagBgClass = isPast ? 'bg-stone-600/95' : 'bg-buffalo-brown/95';
             return `
                 <div class="absolute inset-0 z-0 overflow-hidden">
                     <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ${imageClass}">
-                    <div class="absolute inset-0 bg-gradient-to-t from-buffalo-black/95 via-buffalo-black/50 to-transparent"></div>
+                    <!-- Dual-layer black scrim background mask to ensure total legibility over bright image components -->
+                    <div class="absolute inset-0 bg-black/40"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-black/10"></div>
                 </div>
                 <div class="relative z-10 mt-auto p-8 text-white">
-                    <span class="inline-block text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-bold mb-4 ${tagBgClass}">${tagLabel}</span>
-                    <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-buffalo-brown transition-colors">${event.title}</h3>
-                    <p class="text-stone-300 font-light text-sm leading-relaxed">${event.description}</p>
+                    <span class="inline-block text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-bold mb-4 ${tagBgClass} shadow-sm">${tagLabel}</span>
+                    <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-buffalo-brown transition-colors drop-shadow-md text-white">${event.title}</h3>
+                    <p class="text-stone-200 font-light text-sm leading-relaxed drop-shadow-sm">${event.description}</p>
                 </div>`;
         }
         const slots = Array.from(document.querySelectorAll('.event-card'));
