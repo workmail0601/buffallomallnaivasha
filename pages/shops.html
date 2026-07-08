@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stores Directory | Buffalo Mall Naivasha</title>
+    <title>Stores Directory</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,15 +32,19 @@
       }
 
       /* --- Logo lockup: image scales with the wordmark line-height --- */
-      .brand-lockup { display:inline-flex; align-items:center; gap:0.75rem; line-height:1; }
+      .brand-lockup { display:inline-flex; align-items:center; gap:0.75rem; line-height:1.2; }
       .brand-lockup .brand-mark {
-          height: 2.1em;
-          width: 2.1em;
+          height: 3.5rem; /* much larger and highly visible */
+          width: 3.5rem;
           object-fit: contain;
           display: block;
+          transition: all 0.3s ease-in-out;
       }
-      .brand-lockup .brand-text { font-size: 1.25rem; line-height: 1.05; letter-spacing: -0.01em; }
-      @media (min-width: 768px){ .brand-lockup .brand-text { font-size: 1.4rem; } }
+      .brand-lockup .brand-text { font-size: 1.5rem; line-height: 1.05; letter-spacing: -0.01em; }
+      @media (min-width: 768px){ 
+          .brand-lockup .brand-mark { height: 4.8rem; width: 4.8rem; } 
+          .brand-lockup .brand-text { font-size: 1.8rem; }
+      }
 
       /* --- Mobile menu smooth expand --- */
       #mobile-menu {
@@ -65,62 +69,78 @@
           transform: scale(.6) translateY(10px);
           opacity: 0; pointer-events: none;
           transition: transform 260ms cubic-bezier(.34,1.56,.64,1), opacity 200ms ease;
+          position: relative;
       }
       #tools-dock.is-open #tools-panel {
           transform: scale(1) translateY(0);
           opacity: 1; pointer-events: auto;
-        }
-        .tool-btn {
-            width: 44px; height: 44px; border-radius: 9999px;
-            display: inline-flex; align-items: center; justify-content: center;
-            background: #fff; color: var(--buffalo-brown);
-            box-shadow: 0 6px 18px -6px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.08);
-            border: 1px solid rgba(0,0,0,.05);
-            transition: transform .18s ease, background .18s ease, color .18s ease;
-        }
-        .tool-btn:hover { transform: translateY(-2px); background: var(--buffalo-brown); color:#fff; }
-        .tool-btn svg { width: 20px; height: 20px; }
-        #tools-toggle {
-            width: 54px; height: 54px; border-radius: 9999px;
-            background: var(--buffalo-brown); color:#fff;
-            display:inline-flex; align-items:center; justify-content:center;
-            box-shadow: 0 10px 24px -8px rgba(166,76,44,.6), 0 4px 10px rgba(0,0,0,.12);
-            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-        }
-        #tools-dock.is-open #tools-toggle { transform: rotate(45deg); }
-        #tools-toggle svg { width: 22px; height: 22px; }
+      }
+      .tool-btn {
+          width: 44px; height: 44px; border-radius: 9999px;
+          display: inline-flex; align-items: center; justify-content: center;
+          background: #fff; color: var(--buffalo-brown);
+          box-shadow: 0 6px 18px -6px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.08);
+          border: 1px solid rgba(0,0,0,.05);
+          transition: transform .18s ease, background .18s ease, color .18s ease;
+      }
+      .tool-btn:hover { transform: translateY(-2px); background: var(--buffalo-brown); color:#fff; }
+      .tool-btn svg { width: 20px; height: 20px; }
+      #tools-toggle {
+          width: 54px; height: 54px; border-radius: 9999px;
+          background: var(--buffalo-brown); color:#fff;
+          display:inline-flex; align-items:center; justify-content:center;
+          box-shadow: 0 10px 24px -8px rgba(166, 76, 44,.6), 0 4px 10px rgba(0,0,0,.12);
+          transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+      }
+      #tools-dock.is-open #tools-toggle { transform: rotate(45deg); }
+      #tools-toggle svg { width: 22px; height: 22px; }
 
-        /* Translate popover */
-        #translate-pop {
-            position: absolute; right: 60px; bottom: 0;
-            background:#fff; border-radius: 14px; padding: .5rem .6rem;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,.25);
-            display:none;
-        }
-        #translate-pop.is-open { display:block; }
-        .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; color: transparent !important; }
-        .goog-te-gadget .goog-te-combo {
-            margin: 0 !important; padding: .4rem .6rem !important;
-            border: 1px solid #e5e5e5 !important; border-radius: 8px !important;
-            font-size: 13px !important; font-family: inherit !important;
-            color: #111 !important; background:#fff !important; outline:none;
-        }
-        .goog-te-gadget > span, .goog-logo-link, .goog-te-gadget img { display:none !important; }
-        body { top: 0 !important; }
-        .skiptranslate.goog-te-banner-frame { display: none !important; }
+      /* Translate popover (anchored next to its trigger) */
+      #translate-pop {
+          position: absolute; right: 54px; top: 0;
+          background:#fff; border-radius: 14px; padding: .5rem .6rem;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,.25);
+          display:none;
+          z-index: 50;
+      }
+      #translate-pop.is-open { display:block; }
+      .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; color: transparent !important; }
+      .goog-te-gadget .goog-te-combo {
+          margin: 0 !important; padding: .4rem .6rem !important;
+          border: 1px solid #e5e5e5 !important; border-radius: 8px !important;
+          font-size: 13px !important; font-family: inherit !important;
+          color: #111 !important; background:#fff !important; outline:none;
+      }
+      .goog-te-gadget > span, .goog-logo-link, .goog-te-gadget img { display:none !important; }
+      body { top: 0 !important; }
+      .skiptranslate.goog-te-banner-frame { display: none !important; }
 
-        .footer-card { border-radius: 1.5rem; }
-        @media (min-width:1024px){ .footer-card { border-radius: 1.75rem; } }
+      .footer-card { border-radius: 1.5rem; }
+      @media (min-width:1024px){ .footer-card { border-radius: 1.75rem; } }
+
+      /* Desktop specific overrides to display direct and hide plus */
+      @media (min-width: 768px) {
+          #tools-panel {
+              transform: none !important;
+              opacity: 1 !important;
+              pointer-events: auto !important;
+              display: flex !important;
+              flex-direction: column !important;
+          }
+          #tools-toggle {
+              display: none !important;
+          }
+      }
     </style>
   </head>
   <body class="min-h-screen flex flex-col bg-[#fcf9f5] text-[#1c1c1a] antialiased selection:bg-[#A64C2C]/20 selection:text-buffalo-brown">
 
     <!-- 1. HEADER / NAVIGATION -->
     <header class="bg-[#FDF8F5] border-b border-stone-200/60 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 h-20 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 h-24 flex items-center justify-between">
             <a href="../index.html" class="brand-lockup font-bold tracking-tight text-buffalo-brown">
-                <img src="../images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark">
-                <span class="brand-text">Buffalo Mall Naivasha</span>
+                <img src="../images/logos/logo.ico" alt="logo" class="brand-mark">
+                <span class="brand-text"> </span>
             </a>
 
             <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-stone-700">
@@ -244,8 +264,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 border-b border-white/15">
                 <div class="lg:col-span-4">
                     <a href="../index.html" class="brand-lockup font-bold tracking-tight text-white">
-                        <img src="../images/logos/logo.ico" alt="Buffalo Mall Naivasha logo" class="brand-mark brightness-0 invert">
-                        <span class="brand-text">Buffalo Mall Naivasha</span>
+                        <img src="../images/logos/logo.ico" alt="logo" class="brand-mark brightness-0 invert">
+                        <span class="brand-text"> </span>
                     </a>
                     <p class="mt-4 text-white/75 text-sm leading-relaxed max-w-sm">
                         The perfect stop in the heart of Naivasha to shop, eat and unwind, with secure parking for the whole family.
@@ -319,7 +339,7 @@
 
             <!-- Legal line: single row, small -->
             <div class="flex flex-col md:flex-row items-center justify-between border-t border-white/15 mt-6 pt-5 text-[11px] font-medium text-white/70 uppercase tracking-wider gap-3">
-                <div>&copy; <span id="year">2026</span> Buffalo Mall Naivasha</div>
+                <div>&copy; <span id="year">2026</span></div>
                 <div class="flex items-center gap-3">
                     <span>Naivasha, Kenya</span>
                     <span class="text-white/30">•</span>
@@ -342,15 +362,17 @@
     <!-- ============ FLOATING TOOLS DOCK ============ -->
     <div id="tools-dock" aria-label="Quick tools">
         <div id="tools-panel">
-            <!-- Translate -->
-            <button type="button" class="tool-btn" id="translate-btn" aria-label="Translate page" title="Translate">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 5h10"/><path d="M9 3v2c0 4.5-2.5 8-5 10"/><path d="M5 9c1.5 3.5 4 6 7 8"/>
-                    <path d="M13 21l4-10 4 10"/><path d="M14.5 17.5h5"/>
-                </svg>
-            </button>
-            <div id="translate-pop">
-                <div id="google_translate_element"></div>
+            <!-- Translate wrapped inside relative container for anchor-relative popup -->
+            <div class="relative">
+                <button type="button" class="tool-btn" id="translate-btn" aria-label="Translate page" title="Translate">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 5h10"/><path d="M9 3v2c0 4.5-2.5 8-5 10"/><path d="M5 9c1.5 3.5 4 6 7 8"/>
+                        <path d="M13 21l4-10 4 10"/><path d="M14.5 17.5h5"/>
+                    </svg>
+                </button>
+                <div id="translate-pop">
+                    <div id="google_translate_element"></div>
+                </div>
             </div>
 
             <!-- Contact -->
@@ -383,11 +405,10 @@
       const STORES = [
         { id: 'Chandarana', name: 'Chandarana', category: 'Supermarket', floor: 'Ground Floor', locationCode: 'G-01', description: 'Your premium go-to hypermarket for fresh produce, imported groceries, daily essentials, electronics, and home items at unmatched quality and value.', hours: '8:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'C', featured: true },
         { id: 'java-house', name: 'Java House', category: 'Dining', floor: 'Ground Floor', locationCode: 'G-02', description: 'Kenya’s favorite coffee house serving rich Kenyan coffee, specialty espressos, delicious breakfasts, and a wide array of hearty burgers and meals.', hours: '7:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'J', featured: true },
-        { id: 'java-samsung', name: 'Samsung Store', category: 'Electronics', floor: 'Ground Floor', locationCode: 'G-03', description: 'Official brand store offering the latest Galaxy smartphones, tablets, smartwatches, high-definition QLED televisions, and smart home appliances.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'S', featured: false },
+        { id: 'java-phoneart', name: 'Phoneart Store', category: 'Electronics', floor: 'Ground Floor', locationCode: 'G-03', description: 'Official brand store offering the latest Galaxy smartphones, tablets, smartwatches, high-definition QLED televisions, and smart home appliances.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'S', featured: false },
         { id: 'goodlife', name: 'Goodlife Pharmacy', category: 'Pharmacy', floor: 'Ground Floor', locationCode: 'G-04', description: 'Premium pharmacy and beauty outlet offering quality prescription healthcare, organic skin cosmetics, beauty services, and expert wellness consultation.', hours: '8:30 AM - 9:30 PM', phone: '0716328384', logoFallbackText: 'GL', featured: true },
         { id: 'optica', name: 'Optica', category: 'Eyewear', floor: 'Ground Floor', locationCode: 'G-05', description: 'Leading optical services and eyewear retailer providing computerized eye testing, luxury designer frames, prescription lenses, and designer sunglasses.', hours: '9:00 AM - 8:00 PM', phone: '0716328384', logoFallbackText: 'O', featured: true },
         { id: 'bata', name: 'Bata Shoes', category: 'Fashion', floor: 'Ground Floor', locationCode: 'G-06', description: 'Providing durable and trendy footwear for the entire family. Offering back-to-school shoes, athletic sneakers, casual flats, and formal executive leather pairs.', hours: '9:00 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'B' },
-        { id: 'artcaffe', name: 'Artcaffe', category: 'Dining', floor: 'Ground Floor', locationCode: 'G-07', description: 'Full-service restaurant, bakery, and bar serving European-style coffees, artisan breads, gourmet dishes, and classic evening cocktails in a cozy chic setting.', hours: '7:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'AC' },
         { id: 'safaricom', name: 'Safaricom Shop', category: 'Services', floor: 'Ground Floor', locationCode: 'G-08', description: 'Customer service center for mobile line registration, dynamic fiber internet home setup, device sales with authentic warranty, and comprehensive M-Pesa assistance.', hours: '8:30 AM - 8:00 PM', phone: '0716328384', logoFallbackText: 'SF' },
         { id: 'airtel', name: 'Airtel Store', category: 'Services', floor: 'Ground Floor', locationCode: 'G-09', description: 'Official telecom customer center for SIM card replacements, Airtel Money transactions, high-speed 4G router acquisitions, and general tariff inquiry services.', hours: '9:00 AM - 7:00 PM', phone: '0716328384', logoFallbackText: 'A' },
         { id: 'nairobi-sports', name: 'Nairobi Sports House', category: 'Fashion', floor: 'Ground Floor', locationCode: 'G-10', description: 'A comprehensive sporting supply store housing premium gym equipment, outdoor camping gear, professional athletic footwear, swimwear, and team jerseys.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'NS' },
@@ -412,7 +433,7 @@
 
       document.addEventListener('DOMContentLoaded', () => {
         renderCategories();
-        renderFilteredStores();
+        filterAndRenderStores();
       });
 
       function renderCategories() {
