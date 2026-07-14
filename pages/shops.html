@@ -401,20 +401,35 @@
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      // Stores Data (All standardized to Ground Floor, with locations G-xx)
-      const STORES = [
-        { id: 'Chandarana', name: 'Chandarana', category: 'Supermarket', floor: 'Ground Floor', locationCode: 'G-01', description: 'Your premium go-to hypermarket for fresh produce, imported groceries, daily essentials, electronics, and home items at unmatched quality and value.', hours: '8:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'C', featured: true },
-        { id: 'java-house', name: 'Java House', category: 'Dining', floor: 'Ground Floor', locationCode: 'G-02', description: 'Kenya’s favorite coffee house serving rich Kenyan coffee, specialty espressos, delicious breakfasts, and a wide array of hearty burgers and meals.', hours: '7:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'J', featured: true },
-        { id: 'java-phoneart', name: 'Phoneart Store', category: 'Electronics', floor: 'Ground Floor', locationCode: 'G-03', description: 'Official brand store offering the latest Galaxy smartphones, tablets, smartwatches, high-definition QLED televisions, and smart home appliances.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'S', featured: false },
-        { id: 'goodlife', name: 'Goodlife Pharmacy', category: 'Pharmacy', floor: 'Ground Floor', locationCode: 'G-04', description: 'Premium pharmacy and beauty outlet offering quality prescription healthcare, organic skin cosmetics, beauty services, and expert wellness consultation.', hours: '8:30 AM - 9:30 PM', phone: '0716328384', logoFallbackText: 'GL', featured: true },
-        { id: 'optica', name: 'Optica', category: 'Eyewear', floor: 'Ground Floor', locationCode: 'G-05', description: 'Leading optical services and eyewear retailer providing computerized eye testing, luxury designer frames, prescription lenses, and designer sunglasses.', hours: '9:00 AM - 8:00 PM', phone: '0716328384', logoFallbackText: 'O', featured: true },
-        { id: 'bata', name: 'Bata Shoes', category: 'Fashion', floor: 'Ground Floor', locationCode: 'G-06', description: 'Providing durable and trendy footwear for the entire family. Offering back-to-school shoes, athletic sneakers, casual flats, and formal executive leather pairs.', hours: '9:00 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'B' },
-        { id: 'safaricom', name: 'Safaricom Shop', category: 'Services', floor: 'Ground Floor', locationCode: 'G-08', description: 'Customer service center for mobile line registration, dynamic fiber internet home setup, device sales with authentic warranty, and comprehensive M-Pesa assistance.', hours: '8:30 AM - 8:00 PM', phone: '0716328384', logoFallbackText: 'SF' },
-        { id: 'airtel', name: 'Airtel Store', category: 'Services', floor: 'Ground Floor', locationCode: 'G-09', description: 'Official telecom customer center for SIM card replacements, Airtel Money transactions, high-speed 4G router acquisitions, and general tariff inquiry services.', hours: '9:00 AM - 7:00 PM', phone: '0716328384', logoFallbackText: 'A' },
-        { id: 'nairobi-sports', name: 'Nairobi Sports House', category: 'Fashion', floor: 'Ground Floor', locationCode: 'G-10', description: 'A comprehensive sporting supply store housing premium gym equipment, outdoor camping gear, professional athletic footwear, swimwear, and team jerseys.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'NS' },
-        { id: 'lintons', name: 'Lintons Beauty', category: 'Beauty', floor: 'Ground Floor', locationCode: 'G-11', description: 'East Africa’s premier skin care and cosmetics hub stocking world-renowned luxury brands. In-store aesthetic therapists provide professional skin consultations.', hours: '9:30 AM - 8:30 PM', phone: '0716328384', logoFallbackText: 'L' },
-        { id: 'bookstop', name: 'Bookstop', category: 'Books', floor: 'Ground Floor', locationCode: 'G-12', description: 'An independent literary retreat storing local and international bestsellers, educational textbooks, children’s activity sets, stationery, and creative gifts.', hours: '9:00 AM - 8:00 PM', phone: '0716328384', logoFallbackText: 'BS' }
+      // ========== Google Sheet data source ==========
+      // Set your deployed Apps Script Web App URL in BMN_SHEET_API
+      // (see README-BACKEND.md).
+      const BMN_SHEET_API = window.BMN_SHEET_API || 'https://script.google.com/macros/s/AKfycbwgEwyNz70VXyugc5_PQKV3RXNwQSfGhYp25lletEb5qVR_sUbwQkI3nRFd2ChwqbO-/exec';
+
+      // Fallback data (used only if the Sheet cannot be reached)
+      let STORES = [
+        { id: 'Chandarana', name: 'Chandarana', category: 'Supermarket', floor: 'Ground Floor', locationCode: 'G-01', description: 'Your premium go-to hypermarket for fresh produce, groceries and daily essentials.', hours: '8:00 AM - 10:00 PM', phone: '0716328384', logoFallbackText: 'C', featured: true }
       ];
+
+      async function loadStoresFromSheet() {
+        try {
+          const url = BMN_SHEET_API + (BMN_SHEET_API.includes('?') ? '&' : '?') + 'sheet=stores';
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          if (Array.isArray(data) && data.length) {
+            STORES = data.map(r => ({
+              id: r.id, name: r.name, category: r.category,
+              floor: r.floor, locationCode: r.locationCode,
+              description: r.description, hours: r.hours,
+              phone: r.phone, logoFallbackText: r.logoFallbackText || (r.name||'').slice(0,2).toUpperCase(),
+              featured: r.featured === true || r.featured === 'TRUE' || r.featured === 'true'
+            }));
+          }
+        } catch (e) {
+          console.warn('[BMN] Falling back to embedded stores data:', e);
+        }
+      }
 
       const CATEGORIES = [
         'All', 'Supermarket', 'Dining', 'Fashion', 'Electronics', 'Pharmacy', 'Eyewear', 'Services', 'Beauty', 'Books'
@@ -431,10 +446,22 @@
 
       let bookmarkedStores = JSON.parse(localStorage.getItem('bookmarked_stores') || '[]');
 
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', async () => {
         renderCategories();
         filterAndRenderStores();
+        await loadStoresFromSheet();
+        // Rebuild category list from live data
+        rebuildCategoriesFromStores();
+        renderCategories();
+        filterAndRenderStores();
+        if (totalStoresCountEl) totalStoresCountEl.textContent = STORES.length;
       });
+
+      function rebuildCategoriesFromStores(){
+        const set = new Set(STORES.map(s => s.category).filter(Boolean));
+        CATEGORIES.length = 0;
+        CATEGORIES.push('All', ...Array.from(set).sort());
+      }
 
       function renderCategories() {
         categoriesContainer.innerHTML = '';
