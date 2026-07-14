@@ -425,52 +425,32 @@
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      const EVENTS = [
-        {
-          id: 'artisan-fair',
-          title: 'Artisan Craft Fair',
-          date: '2026-08-15',
-          month: '08',
-          location: 'Main Exhibition Courtyard',
-          imageUrl: 'https://images.unsplash.com/photo-1531058020387-3be344559be6?q=80&w=600&auto=format&fit=crop',
-          description: 'Discover unique handmade treasures, contemporary textiles, beaded jewelry, and custom woodcarvings crafted by gifted local Kenyan artisans and creators.',
-          schedule: '10:00 AM - 6:00 PM',
-          admission: 'Free Entry'
-        },
-        {
-          id: 'taste-naivasha',
-          title: 'Taste of Naivasha',
-          date: '2026-09-05',
-          month: '09',
-          location: 'Alfresco Dining Wing & Gardens',
-          imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=600&auto=format&fit=crop',
-          description: 'A gourmet culinary tour within Buffalo Mall featuring live chef demonstrations, wine pairings, Rift Valley organic cheese tastings, and soothing live jazz.',
-          schedule: '12:00 PM - 9:00 PM',
-          admission: 'Free Entry'
-        },
-        {
-          id: 'family-fun',
-          title: 'Family Fun Weekend',
-          date: '2026-09-20',
-          month: '09',
-          location: 'Central Promenade Lawn',
-          imageUrl: 'https://images.unsplash.com/photo-1472653423608-ee24dd7146c0?q=80&w=600&auto=format&fit=crop',
-          description: 'A high-energy weekend of fun for the kids featuring bouncy castles, face painting, interactive children’s clay modeling, and comedy puppet shows.',
-          schedule: '10:00 AM - 5:00 PM',
-          admission: 'Free Entry'
-        },
-        {
-          id: 'xmas-tree',
-          title: 'Christmas Tree Lighting',
-          date: '2026-12-05',
-          month: '12',
-          location: 'Grand Entrance Atrium',
-          imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=600&auto=format&fit=crop',
-          description: 'Kickstart the festive holiday season with the ceremonial lighting of Naivasha’s tallest Christmas tree, complete with live orchestral choirs, carolers, and treats.',
-          schedule: '6:30 PM - 8:30 PM',
-          admission: 'Free Entry'
-        }
+      // ========== Google Sheet data source ==========
+      const BMN_SHEET_API = window.BMN_SHEET_API || 'https://script.google.com/macros/s/AKfycbwgEwyNz70VXyugc5_PQKV3RXNwQSfGhYp25lletEb5qVR_sUbwQkI3nRFd2ChwqbO-/exec';
+
+      let EVENTS = [
+        { id: 'artisan-fair', title: 'Artisan Craft Fair', date: '2026-08-15', month: '08', location: 'Main Exhibition Courtyard', imageUrl: 'https://images.unsplash.com/photo-1531058020387-3be344559be6?q=80&w=600&auto=format&fit=crop', description: 'Handmade treasures from local Kenyan artisans.', schedule: '10:00 AM - 6:00 PM', admission: 'Free Entry' }
       ];
+
+      async function loadEventsFromSheet() {
+        try {
+          const url = BMN_SHEET_API + (BMN_SHEET_API.includes('?') ? '&' : '?') + 'sheet=events';
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          if (Array.isArray(data) && data.length) {
+            EVENTS = data.map(r => ({
+              id: r.id, title: r.title, date: r.date,
+              month: r.month || (r.date ? String(r.date).slice(5,7) : ''),
+              location: r.location, imageUrl: r.imageUrl,
+              description: r.description, schedule: r.schedule,
+              admission: r.admission || 'Free Entry'
+            }));
+          }
+        } catch (e) {
+          console.warn('[BMN] Falling back to embedded events data:', e);
+        }
+      }
 
       let selectedMonth = 'All';
 
@@ -484,7 +464,9 @@
       const closeRsvpModal = document.getElementById('close-rsvp-modal');
       const confirmRsvpOk = document.getElementById('confirm-rsvp-ok');
 
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', async () => {
+        renderFilteredEvents();
+        await loadEventsFromSheet();
         renderFilteredEvents();
       });
 
