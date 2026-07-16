@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leasing Information | Buffalo Mall Naivasha</title>
+    <meta name="description" content="Lease retail, restaurant, kiosk and pop-up space at Buffalo Mall Naivasha. Anchor traffic, secure parking and a growing catchment in the heart of Naivasha." />
+    <meta name="theme-color" content="#A64C2C" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Literata:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind v4 CDN (kept to match the rest of the site) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      :root{
+        --buffalo-brown:#A64C2C;
+        --buffalo-brown-deep:#6d2409;
+        --buffalo-black:#111111;
+        --buffalo-bg:#FDF8F5;
+        --buffalo-cream:#F3E7DC;
+      }
+      .bg-buffalo-brown{background:var(--buffalo-brown)!important}
+      .text-buffalo-brown{color:var(--buffalo-brown)!important}
+      .border-buffalo-brown{border-color:var(--buffalo-brown)!important}
+      .bg-buffalo-bg{background:var(--buffalo-bg)!important}
+
+      body{
+        font-family:'Plus Jakarta Sans',sans-serif;
+        background:var(--buffalo-bg);
+        color:var(--buffalo-black);
+      }
+      .font-serif-display{font-family:'Literata',serif;}
+
+      /* --- Aurora / mesh hero backdrop --- */
+      .aurora{
+        position:absolute; inset:0; overflow:hidden; z-index:0;
+        background:
+          radial-gradient(60% 55% at 15% 20%, rgba(166,76,44,.55), transparent 60%),
+          radial-gradient(50% 50% at 85% 15%, rgba(255,178,120,.45), transparent 65%),
+          radial-gradient(60% 60% at 75% 85%, rgba(109,36,9,.55), transparent 65%),
+          radial-gradient(40% 40% at 20% 90%, rgba(243,231,220,.7), transparent 70%),
+          linear-gradient(135deg,#2a1108 0%,#5b2110 55%,#a64c2c 100%);
+      }
+      .aurora::before{
+        content:""; position:absolute; inset:-20%;
+        background:
+          repeating-linear-gradient(115deg, rgba(255,255,255,.04) 0 2px, transparent 2px 9px);
+        mix-blend-mode:overlay; opacity:.5;
+      }
+      .grain::after{
+        content:""; position:absolute; inset:0; pointer-events:none;
+        background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+        background-size:3px 3px; opacity:.35;
+      }
+
+      /* Glass */
+      .glass{
+        background:rgba(255,255,255,.08);
+        border:1px solid rgba(255,255,255,.18);
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
+      }
+      .glass-dark{
+        background:rgba(17,17,17,.55);
+        border:1px solid rgba(255,255,255,.10);
+        backdrop-filter:blur(14px);
+      }
+
+      .savanna-shadow{ box-shadow:0 20px 50px -20px rgba(166,76,44,.35), 0 8px 20px -10px rgba(17,17,17,.15); }
+
+      /* Marquee ticker */
+      @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+      .ticker-track{ display:flex; width:max-content; animation:ticker 40s linear infinite; }
+
+      /* Floating badges */
+      @keyframes float-slow { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+      .float-slow{ animation:float-slow 6s ease-in-out infinite; }
+
+      /* Form fields */
+      .field{
+        width:100%;
+        border:1px solid rgba(17,17,17,.12);
+        background:#fff;
+        border-radius:14px;
+        padding:14px 16px;
+        font-size:15px;
+        transition:border-color .2s, box-shadow .2s, transform .05s;
+      }
+      .field:focus{
+        outline:none;
+        border-color:var(--buffalo-brown);
+        box-shadow:0 0 0 4px rgba(166,76,44,.15);
+      }
+      .field-label{
+        font-size:11px; font-weight:700; letter-spacing:.14em;
+        text-transform:uppercase; color:#6b4a3d; margin-bottom:6px; display:block;
+      }
+
+      .btn-primary{
+        background:linear-gradient(135deg,var(--buffalo-brown),var(--buffalo-brown-deep));
+        color:#fff; font-weight:700;
+        padding:16px 28px; border-radius:14px;
+        box-shadow:0 12px 30px -12px rgba(166,76,44,.55);
+        transition:transform .15s ease, box-shadow .2s ease, filter .2s;
+      }
+      .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 18px 40px -14px rgba(166,76,44,.65); filter:brightness(1.05); }
+
+      .chip{
+        display:inline-flex; align-items:center; gap:.5rem;
+        padding:.4rem .8rem; border-radius:999px;
+        background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25);
+        font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#fff;
+      }
+
+      /* Section link */
+      .link-arrow{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; }
+      .link-arrow svg{ transition:transform .2s ease; }
+      .link-arrow:hover svg{ transform:translateX(4px); }
+
+      /* Numbered step */
+      .step-num{
+        width:38px; height:38px; border-radius:12px;
+        background:var(--buffalo-brown); color:#fff;
+        display:inline-flex; align-items:center; justify-content:center;
+        font-weight:800; font-size:14px; letter-spacing:.05em;
+        box-shadow:0 8px 20px -8px rgba(166,76,44,.55);
+      }
+
+      /* Success card */
+      .success-card{ display:none; }
+      .success-card.is-visible{ display:flex; }
+
+      /* --- Logo lockup: image scales with the wordmark line-height --- */
+      .brand-lockup { display:inline-flex; align-items:center; gap:0.75rem; line-height:1.2; }
+      .brand-lockup .brand-mark {
+          height: 3.5rem;
+          width: 3.5rem;
+          object-fit: contain;
+          display: block;
+          transition: all 0.3s ease-in-out;
+      }
+      .brand-lockup .brand-text { font-size: 1.5rem; line-height: 1.05; letter-spacing: -0.01em; }
+      @media (min-width: 768px){
+          .brand-lockup .brand-mark { height: 4.8rem; width: 4.8rem; }
+          .brand-lockup .brand-text { font-size: 1.8rem; }
+      }
+
+      /* --- Mobile menu smooth expand --- */
+      #mobile-menu {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 350ms cubic-bezier(.4,0,.2,1),
+                      opacity 250ms ease;
+          opacity: 0;
+          overflow: hidden;
+      }
+      #mobile-menu > .mm-inner { min-height: 0; overflow: hidden; }
+      #mobile-menu.is-open { grid-template-rows: 1fr; opacity: 1; }
+
+      /* --- Floating tools dock --- */
+      #tools-dock {
+          position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 999;
+          display: flex; flex-direction: column; align-items: flex-end; gap: .6rem;
+      }
+      #tools-panel {
+          display: flex; flex-direction: column; gap: .55rem;
+          transform-origin: bottom right;
+          transform: scale(.6) translateY(10px);
+          opacity: 0; pointer-events: none;
+          transition: transform 260ms cubic-bezier(.34,1.56,.64,1), opacity 200ms ease;
+          position: relative;
+      }
+      #tools-dock.is-open #tools-panel {
+          transform: scale(1) translateY(0);
+          opacity: 1; pointer-events: auto;
+      }
+      .tool-btn {
+          width: 44px; height: 44px; border-radius: 9999px;
+          display: inline-flex; align-items: center; justify-content: center;
+          background: #fff; color: var(--buffalo-brown);
+          box-shadow: 0 6px 18px -6px rgba(0,0,0,.25), 0 2px 6px rgba(0,0,0,.08);
+          border: 1px solid rgba(0,0,0,.05);
+          transition: transform .18s ease, background .18s ease, color .18s ease;
+      }
+      .tool-btn:hover { transform: translateY(-2px); background: var(--buffalo-brown); color:#fff; }
+      .tool-btn svg { width: 20px; height: 20px; }
+      #tools-toggle {
+          width: 54px; height: 54px; border-radius: 9999px;
+          background: var(--buffalo-brown); color:#fff;
+          display:inline-flex; align-items:center; justify-content:center;
+          box-shadow: 0 10px 24px -8px rgba(166, 76, 44,.6), 0 4px 10px rgba(0,0,0,.12);
+          transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+      }
+      #tools-dock.is-open #tools-toggle { transform: rotate(45deg); }
+      #tools-toggle svg { width: 22px; height: 22px; }
+
+      /* Translate popover (anchored next to its trigger) */
+      #translate-pop {
+          position: absolute; right: 54px; top: 0;
+          background:#fff; border-radius: 14px; padding: .5rem .6rem;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,.25);
+          display:none;
+          z-index: 50;
+      }
+      #translate-pop.is-open { display:block; }
+      .goog-te-gadget { font-family: inherit !important; font-size: 0 !important; color: transparent !important; }
+      .goog-te-gadget .goog-te-combo {
+          margin: 0 !important; padding: .4rem .6rem !important;
+          border: 1px solid #e5e5e5 !important; border-radius: 8px !important;
+          font-size: 13px !important; font-family: inherit !important;
+          color: #111 !important; background:#fff !important; outline:none;
+      }
+      .goog-te-gadget > span, .goog-logo-link, .goog-te-gadget img { display:none !important; }
+      body { top: 0 !important; }
+      .skiptranslate.goog-te-banner-frame { display: none !important; }
+
+      .footer-card { border-radius: 1.5rem; }
+      @media (min-width:1024px){ .footer-card { border-radius: 1.75rem; } }
+
+      /* Desktop specific overrides to display direct and hide plus */
+      @media (min-width: 768px) {
+          #tools-panel {
+              transform: none !important;
+              opacity: 1 !important;
+              pointer-events: auto !important;
+              display: flex !important;
+              flex-direction: column !important;
+          }
+          #tools-toggle {
+              display: none !important;
+          }
+      }
+    </style>
+  </head>
+
+  <body class="antialiased">
+
+    <!-- 1. HEADER / NAVIGATION -->
+    <header class="bg-[#FDF8F5] border-b border-stone-200/60 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 h-24 flex items-center justify-between">
+            <a href="../index.html" class="brand-lockup font-bold tracking-tight text-buffalo-brown">
+                <img src="../images/logos/logo.ico" alt="logo" class="brand-mark">
+                <span class="brand-text"> </span>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-stone-700">
+                <a href="../index.html" class="hover:text-buffalo-brown transition-colors">Home</a>
+                <a href="shops.html" class="hover:text-buffalo-brown transition-colors">Stores</a>
+                <a href="mall.html" class="hover:text-buffalo-brown transition-colors">The Mall</a>
+                <a href="events.html" class="hover:text-buffalo-brown transition-colors">Events</a>
+                <a href="contact.html" class="bg-buffalo-brown text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-buffalo-brown/90 transition-all ml-4">
+                    Contact
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-buffalo-black focus:outline-none p-2" aria-label="Toggle Menu" aria-expanded="false">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Smooth-expanding mobile menu -->
+        <div id="mobile-menu" class="md:hidden bg-[#FDF8F5] border-t border-stone-200 shadow-xl">
+            <div class="mm-inner">
+                <div class="px-6 py-6 space-y-4">
+                    <a href="../index.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Home</a>
+                    <a href="shops.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Stores</a>
+                    <a href="mall.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">The Mall</a>
+                    <a href="events.html" class="block text-lg font-semibold text-stone-700 hover:text-buffalo-brown">Events</a>
+                    <a href="contact.html" class="block text-center bg-buffalo-brown text-white px-5 py-3 rounded-xl font-semibold shadow-sm hover:bg-buffalo-brown/90 transition-all">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section class="relative isolate min-h-[85vh] md:min-h-[80vh] flex items-end overflow-hidden">
+      <div class="aurora"></div>
+      <div class="grain absolute inset-0"></div>
+
+      <!-- floating stat badges (desktop) -->
+      <div class="hidden lg:block absolute top-16 right-16 z-10 float-slow">
+        <div class="glass rounded-2xl p-4 text-white w-56">
+          <div class="text-4xl font-black leading-none">120k+</div>
+          <div class="mt-1 text-xs uppercase tracking-widest text-white/70">Monthly footfall</div>
+        </div>
+      </div>
+      <div class="hidden lg:block absolute top-1/2 right-10 z-10 float-slow" style="animation-delay:-1.5s;">
+        <div class="glass rounded-2xl p-4 text-white w-52">
+          <div class="text-4xl font-black leading-none">98%</div>
+          <div class="mt-1 text-xs uppercase tracking-widest text-white/70">Occupancy 2025</div>
+        </div>
+      </div>
+
+      <div class="relative z-10 w-full">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-16 md:pt-20 md:pb-24">
+          <div class="max-w-3xl text-white">
+            <h1 class="font-serif-display text-5xl md:text-7xl leading-[0.95] tracking-tight font-semibold">
+              Set up shop where <span class="italic text-orange-200">Naivasha</span> already gathers.
+            </h1>
+            <p class="mt-6 text-lg md:text-xl text-white/85 max-w-2xl leading-relaxed">
+              Buffalo Mall is the anchor destination for retail, dining and services along the Nairobi–Nakuru highway. Bring your brand to a curated environment with steady traffic, secure parking and long-term neighbours.
+            </p>
+
+            <div class="mt-10 flex flex-wrap items-center gap-4">
+              <a href="#inquiry" class="btn-primary inline-flex items-center gap-2">
+                Request a leasing pack
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#spaces" class="link-arrow text-white/90 hover:text-white">
+                View available spaces
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ticker strip -->
+        <div class="relative border-t border-white/15 bg-black/25 backdrop-blur overflow-hidden">
+          <div class="ticker-track py-3 text-white/75 text-xs md:text-sm font-semibold uppercase tracking-[0.25em]">
+            <span class="px-8">Retail</span><span class="px-8">•</span>
+            <span class="px-8">Food &amp; Beverage</span><span class="px-8">•</span>
+            <span class="px-8">Wellness</span><span class="px-8">•</span>
+            <span class="px-8">Kiosks</span><span class="px-8">•</span>
+            <span class="px-8">Pop-ups</span><span class="px-8">•</span>
+            <span class="px-8">Services</span><span class="px-8">•</span>
+            <span class="px-8">Anchor stores</span><span class="px-8">•</span>
+            <!-- duplicate -->
+            <span class="px-8">Retail</span><span class="px-8">•</span>
+            <span class="px-8">Food &amp; Beverage</span><span class="px-8">•</span>
+            <span class="px-8">Wellness</span><span class="px-8">•</span>
+            <span class="px-8">Kiosks</span><span class="px-8">•</span>
+            <span class="px-8">Pop-ups</span><span class="px-8">•</span>
+            <span class="px-8">Services</span><span class="px-8">•</span>
+            <span class="px-8">Anchor stores</span><span class="px-8">•</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHY LEASE HERE ============ -->
+    <section class="py-20 md:py-28">
+      <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <div class="max-w-2xl">
+          <h2 class="font-serif-display text-4xl md:text-5xl leading-tight tracking-tight text-buffalo-black">
+            A location that does the marketing for you.
+          </h2>
+        </div>
+
+        <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- card -->
+          <div class="rounded-3xl bg-white savanna-shadow p-8 border border-stone-100">
+            <div class="w-12 h-12 rounded-2xl bg-buffalo-brown/10 grid place-items-center text-buffalo-brown">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18M6 21V10l6-4 6 4v11M10 21v-6h4v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Anchor destination</h3>
+            <p class="mt-2 text-stone-600 text-sm leading-relaxed">Naivasha’s go-to weekend and after-work stop, with a mix of national brands and beloved local tenants.</p>
+          </div>
+
+          <div class="rounded-3xl bg-white savanna-shadow p-8 border border-stone-100">
+            <div class="w-12 h-12 rounded-2xl bg-buffalo-brown/10 grid place-items-center text-buffalo-brown">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 17h16M6 17V9a6 6 0 0112 0v8M9 21h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Highway visibility</h3>
+            <p class="mt-2 text-stone-600 text-sm leading-relaxed">Direct frontage on the Nairobi–Nakuru highway with clear signage opportunities and easy entry/exit.</p>
+          </div>
+
+          <div class="rounded-3xl bg-white savanna-shadow p-8 border border-stone-100">
+            <div class="w-12 h-12 rounded-2xl bg-buffalo-brown/10 grid place-items-center text-buffalo-brown">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 4-9 4-9-4 9-4zM3 12l9 4 9-4M3 17l9 4 9-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Curated tenant mix</h3>
+            <p class="mt-2 text-stone-600 text-sm leading-relaxed">Retail, F&amp;B, wellness and services chosen to complement each other and lift foot traffic across the mall.</p>
+          </div>
+
+          <div class="rounded-3xl bg-white savanna-shadow p-8 border border-stone-100">
+            <div class="w-12 h-12 rounded-2xl bg-buffalo-brown/10 grid place-items-center text-buffalo-brown">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Extended trading hours</h3>
+            <p class="mt-2 text-stone-600 text-sm leading-relaxed">Weekday and weekend traffic through the evening — supported by safe, well-lit parking.</p>
+          </div>
+
+          <div class="rounded-3xl bg-white savanna-shadow p-8 border border-stone-100">
+            <div class="w-12 h-12 rounded-2xl bg-buffalo-brown/10 grid place-items-center text-buffalo-brown">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h16v10H4z" stroke="currentColor" stroke-width="1.8"/><path d="M8 7V5h8v2M8 21v-4M16 21v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Turn-key units</h3>
+            <p class="mt-2 text-stone-600 text-sm leading-relaxed">Shell or fit-out ready spaces, from compact kiosks to flagship storefronts and F&amp;B footprints.</p>
+          </div>
+
+          <div class="rounded-3xl bg-buffalo-black text-white p-8">
+            <div class="w-12 h-12 rounded-2xl bg-white/10 grid place-items-center">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h3 class="mt-5 text-xl font-bold tracking-tight">Marketing muscle</h3>
+            <p class="mt-2 text-white/70 text-sm leading-relaxed">Included brand visibility across mall channels, events calendar and community activations.</p>
+            <a href="#inquiry" class="link-arrow mt-6 text-orange-200 hover:text-white">
+              Talk to leasing
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AVAILABLE SPACES ============ -->
+    <section id="spaces" class="py-20 md:py-24 bg-buffalo-bg">
+      <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <div class="flex flex-wrap items-end justify-between gap-6">
+          <div class="max-w-xl">
+            <h2 class="font-serif-display text-4xl md:text-5xl leading-tight tracking-tight">
+              Spaces to match your ambition.
+            </h2>
+          </div>
+          <p class="text-stone-600 max-w-sm text-sm leading-relaxed">Sizes and pricing are indicative. Final terms confirmed after a site walk and tenant conversation.</p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Kiosk -->
+          <div class="group relative rounded-3xl bg-white p-7 border border-stone-100 savanna-shadow overflow-hidden">
+            <div class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest text-buffalo-brown bg-buffalo-brown/10 px-2.5 py-1 rounded-full">Available</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-stone-500">Format 01</div>
+            <h3 class="mt-2 text-2xl font-black tracking-tight">Kiosk</h3>
+            <div class="mt-1 text-stone-500 text-sm">6 – 15 m²</div>
+            <ul class="mt-6 space-y-2 text-sm text-stone-600">
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> High-traffic concourse</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Ideal for accessories, treats, services</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Short-term terms available</li>
+            </ul>
+            <div class="mt-8 pt-6 border-t border-stone-100 flex items-end justify-between">
+              <div>
+                <div class="text-[11px] uppercase tracking-widest text-stone-400 font-semibold">From</div>
+                <div class="text-xl font-bold text-buffalo-brown">KSh 25k / mo</div>
+              </div>
+              <a href="#inquiry" class="text-buffalo-brown font-bold text-sm link-arrow">Enquire
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Retail -->
+          <div class="group relative rounded-3xl bg-white p-7 border border-stone-100 savanna-shadow overflow-hidden">
+            <div class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">2 Units</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-stone-500">Format 02</div>
+            <h3 class="mt-2 text-2xl font-black tracking-tight">Retail shop</h3>
+            <div class="mt-1 text-stone-500 text-sm">30 – 120 m²</div>
+            <ul class="mt-6 space-y-2 text-sm text-stone-600">
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Ground and upper floor options</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Storefront glass + signage panel</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Shell or fit-out ready</li>
+            </ul>
+            <div class="mt-8 pt-6 border-t border-stone-100 flex items-end justify-between">
+              <div>
+                <div class="text-[11px] uppercase tracking-widest text-stone-400 font-semibold">From</div>
+                <div class="text-xl font-bold text-buffalo-brown">Talk to us</div>
+              </div>
+              <a href="#inquiry" class="text-buffalo-brown font-bold text-sm link-arrow">Enquire
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- F&B -->
+          <div class="group relative rounded-3xl bg-white p-7 border border-stone-100 savanna-shadow overflow-hidden">
+            <div class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest text-buffalo-brown bg-buffalo-brown/10 px-2.5 py-1 rounded-full">Available</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-stone-500">Format 03</div>
+            <h3 class="mt-2 text-2xl font-black tracking-tight">Restaurant / Café</h3>
+            <div class="mt-1 text-stone-500 text-sm">60 – 220 m²</div>
+            <ul class="mt-6 space-y-2 text-sm text-stone-600">
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Kitchen extract &amp; grease trap ready</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Outdoor seating available</li>
+              <li class="flex gap-2"><span class="text-buffalo-brown">•</span> Food-court + standalone options</li>
+            </ul>
+            <div class="mt-8 pt-6 border-t border-stone-100 flex items-end justify-between">
+              <div>
+                <div class="text-[11px] uppercase tracking-widest text-stone-400 font-semibold">From</div>
+                <div class="text-xl font-bold text-buffalo-brown">Talk to us</div>
+              </div>
+              <a href="#inquiry" class="text-buffalo-brown font-bold text-sm link-arrow">Enquire
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Pop-up -->
+          <div class="group relative rounded-3xl bg-buffalo-black text-white p-7 overflow-hidden">
+            <div class="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest text-orange-200 bg-white/10 px-2.5 py-1 rounded-full">Rolling</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-white/60">Format 04</div>
+            <h3 class="mt-2 text-2xl font-black tracking-tight">Pop-up / Activation</h3>
+            <div class="mt-1 text-white/60 text-sm">Weekend – 30 days</div>
+            <ul class="mt-6 space-y-2 text-sm text-white/75">
+              <li class="flex gap-2"><span class="text-orange-200">•</span> Atrium, concourse, entry plaza</li>
+              <li class="flex gap-2"><span class="text-orange-200">•</span> Ideal for brand launches</li>
+              <li class="flex gap-2"><span class="text-orange-200">•</span> Power &amp; wifi included</li>
+            </ul>
+            <div class="mt-8 pt-6 border-t border-white/10 flex items-end justify-between">
+              <div>
+                <div class="text-[11px] uppercase tracking-widest text-white/50 font-semibold">Daily rate</div>
+                <div class="text-xl font-bold text-orange-200">From KSh 5k</div>
+              </div>
+              <a href="#inquiry" class="text-orange-200 font-bold text-sm link-arrow">Enquire
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="py-20 md:py-28">
+      <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <div class="max-w-2xl">
+          <h2 class="font-serif-display text-4xl md:text-5xl leading-tight tracking-tight">A simple, four-step path.</h2>
+        </div>
+
+        <ol class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <li class="rounded-3xl bg-white border border-stone-100 p-7 savanna-shadow">
+            <span class="step-num">01</span>
+            <h3 class="mt-5 text-lg font-bold">Send your enquiry</h3>
+            <p class="mt-2 text-sm text-stone-600 leading-relaxed">Fill in the form below with your brand, preferred format and rough timing.</p>
+          </li>
+          <li class="rounded-3xl bg-white border border-stone-100 p-7 savanna-shadow">
+            <span class="step-num">02</span>
+            <h3 class="mt-5 text-lg font-bold">Site walk</h3>
+            <p class="mt-2 text-sm text-stone-600 leading-relaxed">We tour the mall together, see live options and discuss the tenant mix around each.</p>
+          </li>
+          <li class="rounded-3xl bg-white border border-stone-100 p-7 savanna-shadow">
+            <span class="step-num">03</span>
+            <h3 class="mt-5 text-lg font-bold">Proposal</h3>
+            <p class="mt-2 text-sm text-stone-600 leading-relaxed">You receive an indicative offer: rent, service charge, term length and fit-out timelines.</p>
+          </li>
+          <li class="rounded-3xl bg-white border border-stone-100 p-7 savanna-shadow">
+            <span class="step-num">04</span>
+            <h3 class="mt-5 text-lg font-bold">Sign &amp; fit-out</h3>
+            <p class="mt-2 text-sm text-stone-600 leading-relaxed">Once signed, our team supports handover, fit-out coordination and opening comms.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ INQUIRY FORM ============ -->
+    <section id="inquiry" class="relative py-20 md:py-28 overflow-hidden">
+      <div class="absolute inset-0 -z-10">
+        <div class="aurora"></div>
+        <div class="grain absolute inset-0"></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+
+        <!-- Left column: pitch + contact -->
+        <div class="lg:col-span-5 text-white flex flex-col">
+          <h2 class="font-serif-display text-4xl md:text-5xl leading-tight tracking-tight">
+            Let's find your spot at Buffalo Mall.
+          </h2>
+          <p class="mt-5 text-white/80 leading-relaxed">
+            Share a few details and our leasing team will get back within two business days with availability, pricing and a walk-through invitation.
+          </p>
+
+          <div class="mt-10 space-y-5">
+            <div class="glass rounded-2xl p-5 flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl bg-white/15 grid place-items-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6l8 6 8-6M4 6v12h16V6M4 6h16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs uppercase tracking-widest text-white/60 font-bold">Email leasing</div>
+                <a href="mailto:leasing@buffalomallnaivasha.com" class="font-semibold hover:underline break-all">leasing@buffalomallnaivasha.com</a>
+              </div>
+            </div>
+            <div class="glass rounded-2xl p-5 flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl bg-white/15 grid place-items-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 5c0 8 7 15 15 15l2-4-5-2-2 2c-3-1-6-4-7-7l2-2-2-5-3 3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs uppercase tracking-widest text-white/60 font-bold">Call the office</div>
+                <a href="tel:+254700000000" class="font-semibold hover:underline">+254 700 000 000</a>
+              </div>
+            </div>
+            <div class="glass rounded-2xl p-5 flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl bg-white/15 grid place-items-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs uppercase tracking-widest text-white/60 font-bold">Visit us</div>
+                <div class="font-semibold">Nairobi–Nakuru Highway, Naivasha</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-auto pt-10 hidden lg:block">
+            <div class="text-xs uppercase tracking-widest text-white/50 font-bold">Response time</div>
+            <div class="text-3xl font-black tracking-tight mt-1">&lt; 48 hours</div>
+          </div>
+        </div>
+
+        <!-- Right column: form -->
+        <div class="lg:col-span-7">
+          <div class="rounded-3xl bg-white p-6 md:p-10 savanna-shadow relative">
+
+            <!-- Success state -->
+            <div id="successCard" class="success-card absolute inset-0 rounded-3xl bg-white z-10 flex-col items-center justify-center text-center p-10">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-100 grid place-items-center text-emerald-700 mb-5">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h3 class="font-serif-display text-3xl tracking-tight">Enquiry sent</h3>
+              <p class="mt-3 text-stone-600 max-w-sm">Thanks — the leasing team has your details and will be in touch within two business days.</p>
+              <button type="button" onclick="document.getElementById('successCard').classList.remove('is-visible'); document.getElementById('leasingForm').reset();"
+                      class="mt-8 btn-primary">Send another</button>
+            </div>
+
+            <form id="leasingForm" novalidate>
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-xs font-bold uppercase tracking-widest text-buffalo-brown">Enquiry form</div>
+                  <h3 class="font-serif-display text-3xl md:text-4xl tracking-tight mt-1">Tell us about your brand</h3>
+                </div>
+                <div class="hidden md:block text-xs text-stone-500">All fields marked * are required</div>
+              </div>
+
+              <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label class="field-label" for="fname">Full name *</label>
+                  <input id="fname" name="fname" required type="text" placeholder="Jane Wanjiru" class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="company">Company / Brand</label>
+                  <input id="company" name="company" type="text" placeholder="e.g. Savannah Coffee Co." class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="email">Email *</label>
+                  <input id="email" name="email" required type="email" placeholder="you@brand.co.ke" class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="phone">Phone *</label>
+                  <input id="phone" name="phone" required type="tel" placeholder="+254 7XX XXX XXX" class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="format">Space format *</label>
+                  <select id="format" name="format" required class="field">
+                    <option value="">Select a format…</option>
+                    <option>Kiosk</option>
+                    <option>Retail shop</option>
+                    <option>Restaurant / Café</option>
+                    <option>Pop-up / Activation</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="size">Approx. size (m²)</label>
+                  <input id="size" name="size" type="text" placeholder="e.g. 40" class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="start">Preferred start</label>
+                  <input id="start" name="start" type="text" placeholder="e.g. Q1 2026" class="field" />
+                </div>
+                <div>
+                  <label class="field-label" for="budget">Monthly budget</label>
+                  <input id="budget" name="budget" type="text" placeholder="Optional" class="field" />
+                </div>
+                <div class="md:col-span-2">
+                  <label class="field-label" for="message">A bit about your brand *</label>
+                  <textarea id="message" name="message" required rows="5" placeholder="What do you sell / serve? Who is your customer? Anything we should know?" class="field"></textarea>
+                </div>
+
+                <div class="md:col-span-2 flex items-start gap-3 mt-1">
+                  <input id="consent" name="consent" type="checkbox" required class="mt-1 w-4 h-4 accent-[#A64C2C]">
+                  <label for="consent" class="text-sm text-stone-600">I agree Buffalo Mall may contact me about leasing options. My details won’t be shared.</label>
+                </div>
+              </div>
+
+              <div class="mt-10 flex flex-wrap items-center justify-between gap-4">
+                <p class="text-xs text-stone-500">By submitting you'll receive a copy at the email above.</p>
+                <button type="submit" class="btn-primary inline-flex items-center gap-2">
+                  Send enquiry
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="py-20 md:py-24 bg-white">
+      <div class="max-w-4xl mx-auto px-6 md:px-10">
+        <div class="text-center max-w-2xl mx-auto">
+          <h2 class="font-serif-display text-4xl md:text-5xl leading-tight tracking-tight">Good to know before you enquire.</h2>
+        </div>
+
+        <div class="mt-12 divide-y divide-stone-200 border-y border-stone-200">
+          <details class="group py-5">
+            <summary class="flex items-center justify-between cursor-pointer list-none">
+              <span class="text-lg font-bold pr-6">What lease terms do you offer?</span>
+              <span class="w-8 h-8 rounded-full border border-stone-300 grid place-items-center group-open:rotate-45 transition-transform text-buffalo-brown">+</span>
+            </summary>
+            <p class="mt-3 text-stone-600 leading-relaxed">Standard retail leases run 3–5 years with renewal options. Kiosks and pop-ups can be as short as a weekend. Terms are shaped around your business plan.</p>
+          </details>
+          <details class="group py-5">
+            <summary class="flex items-center justify-between cursor-pointer list-none">
+              <span class="text-lg font-bold pr-6">Is fit-out included?</span>
+              <span class="w-8 h-8 rounded-full border border-stone-300 grid place-items-center group-open:rotate-45 transition-transform text-buffalo-brown">+</span>
+            </summary>
+            <p class="mt-3 text-stone-600 leading-relaxed">Units are handed over shell-ready. We provide fit-out guidelines and can recommend approved contractors familiar with the mall.</p>
+          </details>
+          <details class="group py-5">
+            <summary class="flex items-center justify-between cursor-pointer list-none">
+              <span class="text-lg font-bold pr-6">Do you support new local brands?</span>
+              <span class="w-8 h-8 rounded-full border border-stone-300 grid place-items-center group-open:rotate-45 transition-transform text-buffalo-brown">+</span>
+            </summary>
+            <p class="mt-3 text-stone-600 leading-relaxed">Yes — a large share of our tenants are Kenyan-owned. Our kiosk and pop-up formats are a great way to test the market before committing to a full retail unit.</p>
+          </details>
+          <details class="group py-5">
+            <summary class="flex items-center justify-between cursor-pointer list-none">
+              <span class="text-lg font-bold pr-6">How is service charge calculated?</span>
+              <span class="w-8 h-8 rounded-full border border-stone-300 grid place-items-center group-open:rotate-45 transition-transform text-buffalo-brown">+</span>
+            </summary>
+            <p class="mt-3 text-stone-600 leading-relaxed">Service charge covers common area maintenance, security, cleaning and shared marketing. It’s billed per m² and disclosed clearly in your leasing proposal.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="text-white pt-14 pb-6 px-6 md:px-12 lg:px-16" style="background:#A64C2C;">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Top row: brand + primary links + contacts on ONE line at lg -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10 border-b border-white/15">
+                <div class="lg:col-span-4">
+                    <a href="../index.html" class="brand-lockup font-bold tracking-tight text-white">
+                        <img src="../images/logos/logo.ico" alt="logo" class="brand-mark brightness-0 invert">
+                        <span class="brand-text"> </span>
+                    </a>
+                    <p class="mt-4 text-white/75 text-sm leading-relaxed max-w-sm">
+                        The perfect stop in the heart of Naivasha to shop, eat and unwind, with secure parking for the whole family.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Explore</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="mall.html" class="hover:text-white transition-colors">About the Mall</a></li>
+                        <li><a href="shops.html" class="hover:text-white transition-colors">Store Directory</a></li>
+                        <li><a href="shops.html" class="hover:text-white transition-colors">Restaurants</a></li>
+                        <li><a href="events.html" class="hover:text-white transition-colors">Events &amp; News</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-3">Visiting</span>
+                    <ul class="space-y-1.5 text-sm font-medium text-white/90">
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Opening Hours</a></li>
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Getting Here</a></li>
+                        <li><a href="mall.html" class="hover:text-white transition-colors">Parking</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-4 space-y-4">
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Say Hello</span>
+                        <a href="mailto:info@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            info@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Leasing</span>
+                        <a href="mailto:leasing@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            leasing@buffalomallnaivasha.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two feature cards, tighter -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 py-10">
+                <a href="contact.html" class="lg:col-span-7 footer-card bg-buffalo-black p-8 md:p-10 flex flex-col justify-between min-h-[200px] group hover:bg-black transition-colors">
+                    <div>
+                        <span class="text-stone-400 text-xs font-medium tracking-widest uppercase block mb-2">Want to set up shop?</span>
+                        <h3 class="text-lg md:text-xl font-light text-stone-200 leading-relaxed">Let's talk leasing availability. No strings attached.</h3>
+                    </div>
+                    <span class="text-2xl md:text-3xl font-bold tracking-tight mt-6 text-white group-hover:text-buffalo-brown transition-colors">
+                        Let's talk →
+                    </span>
+                </a>
+
+                <div class="lg:col-span-5 footer-card bg-white/10 border border-white/20 p-8 md:p-10 flex flex-col justify-between min-h-[200px]">
+                    <div>
+                        <span class="text-white text-xs font-semibold tracking-widest uppercase block mb-2">Events &amp; Pop-ups</span>
+                        <h3 class="text-lg md:text-xl font-normal text-white/90 leading-snug">Book temporary activation spaces to scale your local brand.</h3>
+                    </div>
+                    <div class="text-2xl md:text-3xl font-bold tracking-tight text-white mt-6">
+                        Space Masterplan
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wordmark strip -->
+            <div class="border-t border-white/15 pt-6">
+                <div class="w-full flex flex-wrap items-center justify-center lg:justify-between text-white font-extrabold tracking-tighter uppercase selection:bg-buffalo-black selection:text-white">
+                    <span class="text-[7vw] sm:text-[5vw] lg:text-[3vw] leading-none select-none">Shop, Eat,Relax</span>
+                </div>
+            </div>
+
+            <!-- Legal line: single row, small -->
+            <div class="flex flex-col md:flex-row items-center justify-between border-t border-white/15 mt-6 pt-5 text-[11px] font-medium text-white/70 uppercase tracking-wider gap-3">
+                <div>&copy; <span id="year">2026</span></div>
+                <div class="flex items-center gap-3">
+                    <span>Naivasha, Kenya</span>
+                    <span class="text-white/30">•</span>
+                    <a href="http://www.buffalomallnaivasha.com" class="hover:text-white transition-colors">buffalomallnaivasha.com</a>
+                </div>
+                <div class="flex gap-4">
+                    <a href="leasing.html" class="hover:text-white transition-colors font-bold">Leasing Information</a>
+                    <a href="#" class="hover:text-white transition-colors">Imprint</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+
+            <div class="text-center pt-4 text-[10px] font-medium text-white/50 uppercase tracking-wider">
+                Created by
+                <a href="https://sketchbook.co.ke" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white hover:underline font-bold">Sketchbook.co.ke</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ FLOATING TOOLS DOCK ============ -->
+    <div id="tools-dock" aria-label="Quick tools">
+        <div id="tools-panel">
+            <!-- Translate wrapped inside relative container for anchor-relative popup -->
+            <div class="relative">
+                <button type="button" class="tool-btn" id="translate-btn" aria-label="Translate page" title="Translate">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 5h10"/><path d="M9 3v2c0 4.5-2.5 8-5 10"/><path d="M5 9c1.5 3.5 4 6 7 8"/>
+                        <path d="M13 21l4-10 4 10"/><path d="M14.5 17.5h5"/>
+                    </svg>
+                </button>
+                <div id="translate-pop">
+                    <div id="google_translate_element"></div>
+                </div>
+            </div>
+
+            <!-- Contact -->
+            <a href="contact.html" class="tool-btn" aria-label="Contact us" title="Contact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>
+                </svg>
+            </a>
+
+            <!-- Scroll to top -->
+            <button type="button" class="tool-btn" id="scrollTopBtn" aria-label="Scroll to top" title="Back to top">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <button type="button" id="tools-toggle" aria-label="Open quick tools" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"/><path d="M5 12h14"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // -------- Leasing enquiry form --------
+      const form = document.getElementById('leasingForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        document.getElementById('successCard').classList.add('is-visible');
+        window.scrollTo({ top: document.getElementById('inquiry').offsetTop - 40, behavior: 'smooth' });
+      });
+
+      // -------- Mobile menu: smooth expand --------
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      menuBtn.addEventListener('click', () => {
+          const open = mobileMenu.classList.toggle('is-open');
+          menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          menuIcon.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+          menuIcon.innerHTML = open
+              ? '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>'
+              : '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>';
+      });
+
+      // -------- Floating tools dock --------
+      const dock = document.getElementById('tools-dock');
+      const toolsToggle = document.getElementById('tools-toggle');
+      const translateBtn = document.getElementById('translate-btn');
+      const translatePop = document.getElementById('translate-pop');
+
+      toolsToggle.addEventListener('click', () => {
+          const open = dock.classList.toggle('is-open');
+          toolsToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (!open) translatePop.classList.remove('is-open');
+      });
+
+      document.addEventListener('click', (e) => {
+          if (!dock.contains(e.target)) {
+              dock.classList.remove('is-open');
+              translatePop.classList.remove('is-open');
+              toolsToggle.setAttribute('aria-expanded','false');
+          }
+      });
+
+      translateBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          translatePop.classList.toggle('is-open');
+      });
+
+      document.getElementById('scrollTopBtn').addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          dock.classList.remove('is-open');
+      });
+
+      function googleTranslateElementInit(){
+          new google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'en,sw,fr,es,de,zh-CN,ar',
+              layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: false
+          }, 'google_translate_element');
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  </body>
+</html>
