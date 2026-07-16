@@ -604,9 +604,8 @@
       // ========== Google Sheet data source ==========
       const BMN_SHEET_API = window.BMN_SHEET_API || 'https://script.google.com/macros/s/AKfycbwgEwyNz70VXyugc5_PQKV3RXNwQSfGhYp25lletEb5qVR_sUbwQkI3nRFd2ChwqbO-/exec';
 
-      let EVENTS = [
-        { id: 'artisan-fair', title: 'Artisan Craft Fair', date: '2026-08-15', month: '08', location: 'Main Exhibition Courtyard', imageUrl: 'https://images.unsplash.com/photo-1531058020387-3be344559be6?q=80&w=600&auto=format&fit=crop', description: 'Handmade treasures from local Kenyan artisans.', schedule: '10:00 AM - 6:00 PM', admission: 'Free Entry' }
-      ];
+      // Events are loaded exclusively from the spreadsheet — no placeholder data.
+      let EVENTS = [];
 
       async function loadEventsFromSheet() {
         try {
@@ -614,7 +613,7 @@
           const res = await fetch(url, { cache: 'no-store' });
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
-          if (Array.isArray(data) && data.length) {
+          if (Array.isArray(data)) {
             EVENTS = data.map(r => ({
               id: r.id, title: r.title, date: r.date,
               month: r.month || (r.date ? String(r.date).slice(5,7) : ''),
@@ -624,9 +623,10 @@
             }));
           }
         } catch (e) {
-          console.warn('[BMN] Falling back to embedded events data:', e);
+          console.warn('[BMN] Could not load events from sheet:', e);
         }
       }
+
 
       let selectedMonth = 'All';
 
@@ -652,7 +652,18 @@
         });
 
         eventsListContainer.innerHTML = '';
-        
+
+        if (!filtered.length) {
+          const empty = document.createElement('div');
+          empty.className = 'text-center py-16 border border-dashed border-[#dbc1b9] rounded-3xl bg-[#FDF8F5]';
+          empty.innerHTML = `
+            <p class="font-sans font-bold text-stone-700">No events to show right now.</p>
+            <p class="font-serif text-sm text-stone-500 mt-1">Check back soon, or try a different month.</p>
+          `;
+          eventsListContainer.appendChild(empty);
+          return;
+        }
+
         filtered.forEach(evt => {
           const card = document.createElement('div');
           card.className = 'bg-white border border-[#dbc1b9]/50 rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-sm hover:shadow-md transition-all duration-300';
