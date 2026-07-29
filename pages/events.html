@@ -659,8 +659,8 @@
           const empty = document.createElement('div');
           empty.className = 'text-center py-16 border border-dashed border-[#dbc1b9] rounded-3xl bg-[#FDF8F5]';
           empty.innerHTML = `
-            <p class="font-sans font-bold text-stone-700">No events to show right now.</p>
-            <p class="font-serif text-sm text-stone-500 mt-1">Check back soon, or try a different month.</p>
+            <p class="font-sans font-bold text-stone-700">Loading Events...</p>
+            <p class="font-serif text-sm text-stone-500 mt-1">Warming up.</p>
           `;
           eventsListContainer.appendChild(empty);
           return;
