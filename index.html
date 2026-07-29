@@ -197,21 +197,21 @@
                 <img src="images/005.webp"
                      alt="Modern Shopping Complex Architecture"
                      class="w-full h-full object-cover object-center scale-105 brightness-90 contrast-105" />
-                <!-- Enhanced high-contrast dark overlay gradient for readability -->
-                <div class="absolute inset-0 bg-black/40"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20"></div>
-                <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
+                <!-- Brown-tinted overlay gradient for readability -->
+                <div class="absolute inset-0 bg-[#3A1A0F]/45"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#2B140B] via-[#A64C2C]/55 to-[#A64C2C]/15"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#2B140B]/55 via-transparent to-transparent"></div>
             </div>
 
             <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-20 w-full text-white">
-                <div class="max-w-3xl">
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 drop-shadow-lg text-white">
+                <div class="max-w-2xl">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.15] mb-5 drop-shadow-lg text-white">
                         Shop, Eat and Relax in the Heart of Naivasha
                     </h1>
-                    <p class="text-lg sm:text-xl text-stone-100 font-normal max-w-2xl leading-relaxed mb-10 drop-shadow-md">
+                    <p class="text-base sm:text-lg text-stone-100 font-normal max-w-xl leading-relaxed mb-8 drop-shadow-md">
                         The perfect stop to recharge, explore and find everything your family needs, all with secure parking.
                     </p>
-                    <a href="pages/shops.html" class="inline-flex items-center bg-buffalo-brown text-white text-base font-semibold px-6 py-4 rounded-xl shadow-lg hover:bg-buffalo-brown/90 hover:translate-x-1 transition-all group">
+                    <a href="pages/shops.html" class="inline-flex items-center bg-[#A64C2C] text-white border-2 border-[#A64C2C] text-base font-semibold px-6 py-4 rounded-xl shadow-lg hover:bg-white hover:text-[#A64C2C] hover:translate-x-1 transition-all group">
                         <span>Which shop do you want to visit?</span>
                         <svg class="w-5 h-5 ml-3 transform transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -334,14 +334,14 @@
                 <div class="lg:col-span-4 space-y-4">
                     <div>
                         <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Say Hello</span>
-                        <a href="mailto:info@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
-                            info@buffalomallnaivasha.com
+                        <a href="mailto:hello@buffalomallnaivasha.com " class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            hello@buffalomallnaivasha.com 
                         </a>
                     </div>
                     <div>
                         <span class="text-[10px] uppercase tracking-widest text-white/60 font-bold block mb-1">Leasing</span>
-                        <a href="mailto:leasing@buffalomallnaivasha.com" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
-                            leasing@buffalomallnaivasha.com
+                        <a href="mailto:Cnganga@broll.co.ke" class="text-sm md:text-base font-semibold text-white hover:underline break-all">
+                            Cnganga@broll.co.ke
                         </a>
                     </div>
                 </div>
@@ -547,10 +547,10 @@
                     <div class="absolute inset-0 bg-black/40"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-black/10"></div>
                 </div>
-                <div class="relative z-10 mt-auto p-8 text-white">
+                <div class="relative z-10 mt-auto p-8 text-white max-h-[190px] overflow-hidden">
                     <span class="inline-block text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-bold mb-4 ${tagBgClass} shadow-sm">${tagLabel}</span>
-                    <h3 class="text-2xl font-bold tracking-tight mb-2 group-hover:text-buffalo-brown transition-colors drop-shadow-md text-white">${event.title}</h3>
-                    <p class="text-stone-200 font-light text-sm leading-relaxed drop-shadow-sm">${event.description}</p>
+                    <h3 class="text-2xl font-bold tracking-tight mb-2 line-clamp-2 group-hover:text-buffalo-brown transition-colors drop-shadow-md text-white">${event.title}</h3>
+                    <p class="text-stone-200 font-light text-sm leading-relaxed line-clamp-3 drop-shadow-sm">${event.description}</p>
                 </div>`;
         }
         const slots = Array.from(document.querySelectorAll('.event-card'));
